@@ -9,27 +9,32 @@
     ViewData["Title"] = "Home Page";
 }
 @section slider{
-    <div id="carouselBlk">
-        <div id="myCarousel" class="carousel slide">
-            <div class="carousel-inner">
-                @for (int index = 0; index < Model.Slides.Count; index++)
-                {
-                    var slide = Model.Slides[index];
-                    <div class="item @(index == 0?"active":"")">
-                        <div class="container">
-                            <a href="@slide.Url"><img style="width:100%" src="@slide.Image" alt="@slide.Name" /></a>
-                            <div class="carousel-caption">
-                                <h4>@slide.Name</h4>
-                                <p>@slide.Description</p>
-                            </div>
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            @for (int index = 0; index < Model.Slides.Count; index++)
+            {
+                var slide = Model.Slides[index];
+                <div class="carousel-item @(index == 0?"active":"")">
+                    <div class="container">
+                        <a href="@slide.Url"><img style="width:100%" src="@slide.Image" alt="@slide.Name" /></a>
+                        <div class="carousel-caption">
+                            <h4>@slide.Name</h4>
+                            <p>@slide.Description</p>
                         </div>
                     </div>
-                }
-            </div>
-            <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-            <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+                </div>
+            }
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
+    
 }
 <div class="well well-small">
     <h4><localize>Featured Products</localize> <small class="pull-right">200+ featured products</small></h4>
