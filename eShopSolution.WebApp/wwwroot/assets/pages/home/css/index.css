@@ -1,0 +1,20 @@
+﻿.card {
+    border: unset;
+}
+.shadow {
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+/* BANNER */
+section.banner {
+    padding-top: 76px;
+    background-image: url('/assets/pages/home/background-banner-small.webp');
+    background-size: cover;
+    background-position: center;
+}
+
+
+    section.banner .container {
+        max-width: 1410px;
+        height: 100%;
+    }
+
