@@ -28,6 +28,8 @@
     <link href="/themes/css/font-awesome.css" rel="stylesheet" type="text/css">
     <!-- Google-code-prettify -->
     @*<link href="/themes/js/google-code-prettify/prettify.css" rel="stylesheet" />*@
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" crossorigin="anonymous">
+
 
     <!-- fav and touch icons -->
     <link rel="shortcut icon" href="/themes/images/ico/favicon.ico">
@@ -36,21 +38,22 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/themes/images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="/themes/images/ico/apple-touch-icon-57-precomposed.png">
     <style type="text/css" id="enject"></style>
+    <link href="~/assets/css/bundle.min.css" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
     @RenderSection("styles", false)
 
 </head>
 <body>
     <input type="hidden" id="hidCulture" value="@culture" />
     <input type="hidden" id="hidBaseAddress" value="@Configuration["BaseAddress"]" />
-    <div id="header">
+    <section class="header">
         <div class="container">
             <div id="welcomeLine" class="row justify-content-between ">
                 @if (User.Identity.IsAuthenticated)
                 {
-    <div class="col-4 m-auto">Xin chào!<strong> @User.Identity.Name</strong></div> }
+                    <div class="col-4 m-auto">Xin chào!<strong> @User.Identity.Name</strong></div> }
                 else
                 {
-    <div class="col-4 m-auto">Xin chào!<strong> Guest!</strong></div>}
+                    <div class="col-4 m-auto">Xin chào!<strong> Guest!</strong></div>}
                 <div class="col ">
                     <div class="text-end">
                         @*<language-nav language-label="NativeName"
@@ -71,9 +74,9 @@
                     <a class="navbar-brand col-8" href="/">
                         <img loading="lazy" class="logo" src="~/assets/pages/home/images/logo.png" alt="logo" style="width: 100%; height: auto" width="300" height="80">
                     </a>
-                    
+
                 </div>
-                
+
 
                 <button id="smallScreen" class="navbar-toggler btn-trial" data-bs-toggle="modal" data-bs-target="#exampleModal" type="button" aria-expanded="false"
                         aria-label="Toggle navigation">
@@ -104,22 +107,22 @@
                         <li class="col-auto">
                             @if (User.Identity.IsAuthenticated)
                             {
-                <form action="/@culture/Account/Logout" method="post">
-                    <button type="submit" style="padding-right:0;margin-top:10px;margin-bottom:0px;background:transparent;border:none;">
-                        <span class="btn btn-large btn-success"><localize>Đăng xuất</localize></span>
-                    </button>
-                </form> }
+                                <form action="/@culture/Account/Logout" method="post">
+                                    <button type="submit" style="padding-right:0;margin-top:10px;margin-bottom:0px;background:transparent;border:none;">
+                                        <span class="btn btn-large btn-success"><localize>Đăng xuất</localize></span>
+                                    </button>
+                                </form> }
                             else
                             {
-                <a href="/@culture/Account/Login" style="padding-right:0">
-                    <span class="btn btn-large btn-success"><localize>Đăng nhập</localize></span>
-                </a>}
+                                <a href="/@culture/Account/Login" style="padding-right:0">
+                                    <span class="btn btn-large btn-success"><localize>Đăng nhập</localize></span>
+                                </a>}
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
     <!-- Header End====================================================================== -->
     @RenderSection("slider", required: false)
 
@@ -183,9 +186,11 @@
     @*<script src="/themes/js/jquery.lightbox-0.5.js"></script>*@
 
     <script src="/js/site.js"></script>
-    <script>
-    var site = new SiteController();
+    <script>var site = new SiteController();
         site.initialize();</script>
+    <script src="~/assets/js/bundle.min.js"></script>
+
+
     @*load script từ các nội dung con, không bắt buộc (require=false)*@
     @RenderSection("scripts", false)
 

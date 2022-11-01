@@ -7,6 +7,9 @@
   <ItemGroup>
     <Folder Include="wwwroot\assets\pages\home\images\" />
     <Folder Include="wwwroot\themes\less\oregional\" />
+    <Folder Include="wwwroot\assets\js\" />
+    <Folder Include="wwwroot\assets\css\" />
+    <Folder Include="wwwroot\assets\images\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,5 +22,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\eShopSolution.ApiIntegration\eShopSolution.ApiIntegration.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\assets\js\" />
+    <Content Remove="wwwroot\assets\css\" />
+    <Content Remove="wwwroot\assets\images\" />
   </ItemGroup>
 </Project>
