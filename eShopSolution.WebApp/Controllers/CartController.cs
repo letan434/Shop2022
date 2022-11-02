@@ -67,9 +67,9 @@ namespace eShopSolution.WebApp.Controllers
             return Ok(currentCart);
         }
 
-        public async Task<IActionResult> AddToCart(int id, string languageId)
+        public async Task<IActionResult> AddToCart(int id)
         {
-            var product = await _productApiClient.GetById(id, languageId);
+            var product = await _productApiClient.GetById(id);
 
             var session = HttpContext.Session.GetString(SystemConstants.CartSession);
             List<CartItemViewModel> currentCart = new List<CartItemViewModel>();

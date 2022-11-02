@@ -30,20 +30,18 @@ namespace eShopSolution.AdminApp.Controllers
 
         public async Task<IActionResult> Index(string keyword, int? categoryId, int pageIndex = 1, int pageSize = 10)
         {
-            var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
 
             var request = new GetManageProductPagingRequest()
             {
                 Keyword = keyword,
                 PageIndex = pageIndex,
                 PageSize = pageSize,
-                LanguageId = languageId,
                 CategoryId = categoryId
             };
             var data = await _productApiClient.GetPagings(request);
             ViewBag.Keyword = keyword;
 
-            var categories = await _categoryApiClient.GetAll(languageId);
+            var categories = await _categoryApiClient.GetAll();
             ViewBag.Categories = categories.Select(x => new SelectListItem()
             {
                 Text = x.Name,
@@ -112,9 +110,8 @@ namespace eShopSolution.AdminApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
 
-            var product = await _productApiClient.GetById(id, languageId);
+            var product = await _productApiClient.GetById(id);
             var editVm = new ProductUpdateRequest()
             {
                 Id = product.Id,
@@ -148,10 +145,9 @@ namespace eShopSolution.AdminApp.Controllers
 
         private async Task<CategoryAssignRequest> GetCategoryAssignRequest(int id)
         {
-            var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
 
-            var productObj = await _productApiClient.GetById(id, languageId);
-            var categories = await _categoryApiClient.GetAll(languageId);
+            var productObj = await _productApiClient.GetById(id);
+            var categories = await _categoryApiClient.GetAll();
             var categoryAssignRequest = new CategoryAssignRequest();
             foreach (var role in categories)
             {

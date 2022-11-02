@@ -18,3 +18,25 @@ section.banner {
         height: 100%;
     }
 
+#carouselExampleControls .carousel-control-next-icon:hover {
+    background-color: rgba(0,0,0,.32);
+}
+#carouselExampleControls .carousel-control-prev-icon:hover {
+    background-color: rgba(0,0,0,.32);
+}
+
+#carouselExampleControls {
+    background: #f6f3e7;
+}
+    #carouselExampleControls .carousel-control-next-icon {
+        width: 4rem;
+        height: 4rem;
+        background-color: rgba(0,0,0,.18);
+        border-radius: 6px;
+    }
+    #carouselExampleControls .carousel-control-prev-icon {
+        width: 4rem;
+        height: 4rem;
+        background-color: rgba(0,0,0,.18);
+        border-radius: 6px;
+    }

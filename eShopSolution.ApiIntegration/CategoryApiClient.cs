@@ -20,14 +20,14 @@ namespace eShopSolution.ApiIntegration
         {
         }
 
-        public async Task<List<CategoryVm>> GetAll(string languageId)
+        public async Task<List<CategoryVm>> GetAll()
         {
-            return await GetListAsync<CategoryVm>("/api/categories?languageId=" + languageId);
+            return await GetListAsync<CategoryVm>("/api/categories");
         }
 
-        public async Task<CategoryVm> GetById(string languageId, int id)
+        public async Task<CategoryVm> GetById(int id)
         {
-            return await GetAsync<CategoryVm>($"/api/categories/{id}/{languageId}");
+            return await GetAsync<CategoryVm>($"/api/categories/{id}");
         }
     }
 }

@@ -119,7 +119,7 @@ namespace eShopSolution.ApiIntegration
             var data = await GetAsync<PagedResult<ProductVm>>(
                 $"/api/products/paging?pageIndex={request.PageIndex}" +
                 $"&pageSize={request.PageSize}" +
-                $"&keyword={request.Keyword}&languageId={request.LanguageId}&categoryId={request.CategoryId}");
+                $"&keyword={request.Keyword}&categoryId={request.CategoryId}");
 
             return data;
         }
@@ -143,22 +143,22 @@ namespace eShopSolution.ApiIntegration
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(result);
         }
 
-        public async Task<ProductVm> GetById(int id, string languageId)
+        public async Task<ProductVm> GetById(int id)
         {
-            var data = await GetAsync<ProductVm>($"/api/products/{id}/{languageId}");
+            var data = await GetAsync<ProductVm>($"/api/products/{id}");
 
             return data;
         }
 
-        public async Task<List<ProductVm>> GetFeaturedProducts(string languageId, int take)
+        public async Task<List<ProductVm>> GetFeaturedProducts( int take)
         {
-            var data = await GetListAsync<ProductVm>($"/api/products/featured/{languageId}/{take}");
+            var data = await GetListAsync<ProductVm>($"/api/products/featured/{take}");
             return data;
         }
 
-        public async Task<List<ProductVm>> GetLatestProducts(string languageId, int take)
+        public async Task<List<ProductVm>> GetLatestProducts( int take)
         {
-            var data = await GetListAsync<ProductVm>($"/api/products/latest/{languageId}/{take}");
+            var data = await GetListAsync<ProductVm>($"/api/products/latest/{take}");
             return data;
         }
 

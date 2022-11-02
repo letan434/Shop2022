@@ -68,9 +68,14 @@ namespace eShopSolution.Application.Catalog.Products
                 Stock = request.Stock,
                 ViewCount = 0,
                 DateCreated = DateTime.Now,
-
+                Name = request.Name,
+                Description = request.Description,
+                SeoAlias = request.SeoAlias,
+                SeoDescription = request.SeoDescription,
+                Details = request.Details,
+               
             };
-            //Save image
+            //Save image 
             if (request.ThumbnailImage != null)
             {
                 product.ProductImages = new List<ProductImage>()
@@ -82,7 +87,6 @@ namespace eShopSolution.Application.Catalog.Products
                         FileSize = request.ThumbnailImage.Length,
                         ImagePath = await this.SaveFile(request.ThumbnailImage),
                         IsDefault = true,
-                        SortOrder = 1
                     }
                 };
             }
