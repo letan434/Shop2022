@@ -1,21 +1,25 @@
 ﻿@model ProductCategoryViewModel
 
-@{
-    ViewData["Title"] = Model.Category.Name + (Model.Products.PageIndex == 1 ? "" : " - " + _loc["Page"] + " " + Model.Products.PageIndex);
+@{ ViewData["Title"] = Model.Category.Name + (Model.Products.PageIndex == 1 ? "" : " - " + _loc["Page"] + " " + Model.Products.PageIndex);
     ViewData["Description"] = Model.Category.Name + (Model.Products.PageIndex == 1 ? "" : " - " + _loc["Page"] + " " + Model.Products.PageIndex);
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var culture = CultureInfo.CurrentCulture;
-}
+    var culture = CultureInfo.CurrentCulture; }
 @inject Microsoft.Extensions.Configuration.IConfiguration Configuration;
 @inject LazZiya.ExpressLocalization.ISharedCultureLocalizer _loc;
+@section styles {
+    <link href="~/assets/pages/home/css/index.css" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+}
 <ul class="breadcrumb">
-    <li><a href="index.html">Home</a> <span class="divider">/</span></li>
-    <li class="active">Products Name</li>
+    <li><a href="/">Trang chủ</a> <span class="divider">/</span></li>
+    <li class="active">@Model.Category.Name</li>
 </ul>
 <h3> @Model.Category.Name <small class="pull-right"> 40 <localize>available products</localize> </small></h3>
 <hr class="soft" />
 <p>
-    Mô tả của ứng dụng (hard)
+    Guitar bass là một loại đàn guitar với những đặc điểm chung của loại đàn này là loại nhạc cụ dây sử dụng các ngón tay để chơi nhạc. Guitar bass về mặt hình dáng có cấu trúc khá giống một cây guitar điện.
+    Các cây guitar bass chủ yếu có 4 dây (E, A, D, G) cho âm thanh trầm. Dây đàn làm bằng kim loại. Tuy nhiên, kể từ năm 1967 đã ra đời thêm đàn guitar bass 5 dây, 6 dây, thậm chí là 7 dây đến 15 dây như hiện nay.
+    Đàn guitar bass có cấu trúc thân đàn đặc gắn bộ phận khuếch tán. Cần đàn được chia làm từ 22 đến 24 ngăn. Chất liệu làm đàn chủ yếu là gỗ, kim loại hoặc plastic.
+    Đàn guitar bass có âm vực rộng 3 quãng 8, thấp hơn so với guitar điện. Âm thanh phát ra chủ yếu là các nốt trầm. Chính đặc điểm điểm này khiến guitar bass có vai trò đặc biệt trong dàn nhạc.
 </p>
 <hr class="soft" />
 <form class="form-horizontal span6">
@@ -35,67 +39,45 @@
     <a href="#blockView" data-toggle="tab"><span class="btn btn-large btn-primary"><i class="icon-th-large"></i></span></a>
 </div>
 <br class="clr" />
-<div class="tab-content">
-    <div class="tab-pane" id="listView">
-        @for (int i = 0; i < Model.Products.Items.Count; i++)
-        {
-            var item = Model.Products.Items[i];
-            <div class="row">
-                <div class="span2">
-                    <img src="@(Configuration["BaseAddress"] + @item.ThumbnailImage) " alt="@item.Name" />
-                </div>
-                <div class="span4">
-                    <h3><localize>New | Available</localize></h3>
-                    <hr class="soft" />
-                    <h5>@item.Name</h5>
-                    <p>
-                        @item.Description
-                    </p>
-                    <a class="btn btn-small pull-right" href="product_details.html"><localize>Xem chi tiết</localize></a>
-                    <br class="clr" />
-                </div>
-                <div class="span3 alignR">
-                    <form class="form-horizontal qtyFrm">
-                        <h3> @item.Price.ToString("C", culture)</h3>
-                        <label class="checkbox">
-                            <input type="checkbox">  Adds product to compair
-                        </label><br />
 
-                        <a href="product_details.html" class="btn btn-large btn-primary"> <localize>Add to</localize> <i class=" icon-shopping-cart"></i></a>
-                        <a href="product_details.html" class="btn btn-large"><i class="icon-zoom-in"></i></a>
-                    </form>
-                </div>
-            </div>
-            <hr class="soft" />
-        }
-    </div>
+<div class="row prd1-right-items">
 
-    <div class="tab-pane  active" id="blockView">
-        <ul class="thumbnails">
-            @for (int i = 0; i < Model.Products.Items.Count; i++)
-            {
-                var item = Model.Products.Items[i];
-                <li class="span3">
-                    <div class="thumbnail">
-                        <a href="/@culture.Name/@_loc["products"]/@item.Id"><img src="@(Configuration["BaseAddress"] + @item.ThumbnailImage)" alt="@item.Name" /></a>
-                        <div class="caption">
-                            <h5>@item.Name</h5>
-                            <p>
-                                @item.Description
-                            </p>
-                            <h4 style="text-align:center">
-                                <a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a>
-                                <a class="btn" href="#"><localize>Add to</localize> <i class="icon-shopping-cart"></i></a>
-                                <a class="btn btn-primary" href="#">@item.Price.ToString("C", culture)</a>
-                            </h4>
-                        </div>
-                    </div>
-                </li>
-            }
-        </ul>
-        <hr class="soft" />
+
+
+    @for (int idx = 0; idx < Model.Products.Items.Count; idx++)
+    {
+
+        var item = Model.Products.Items[idx];
+
+
+<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 item">
+    <div class="thumbnail">
+
+        <div class="cont-item">
+            <a href="/@culture.Name/@_loc["products"]/@item.Id"><img src="@(Configuration["BaseAddress"] + item.ThumbnailImage[0])" alt="@item.Name" style="width: 100%; height: auto"></a>
+
+
+        </div>
+        <div class="button">
+            <a class="btn btn-prd1-buynow hidden-xs hidden-sm" href="/">
+                Thêm vào giỏ
+            </a>
+            <a class="btn btn-prd1-heart addToWishList" href="javascript:void(0)" data-liked="false" data-action="transferCartToWishList" data-idproduct="713796"></a>
+        </div>
+        <div class="caption">
+            <h3 class="type">@item.Name</h3>
+            <h3 class="divider"></h3>
+            <h3 class="name">
+                <a class="btn" href="/@culture.Name/@_loc["products"]/@item.Id" localize-content>Xem chi tiết</a>
+            </h3>
+            <h3 class="color">Sản phẩm mới</h3>
+            <h3 class="price">
+                @item.Price.ToString()
+            </h3>
+        </div>
+
     </div>
+</div>}
 </div>
-
 @await Component.InvokeAsync("Pager", Model.Products)
 <br class="clr" />

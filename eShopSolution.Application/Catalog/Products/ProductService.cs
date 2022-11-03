@@ -75,21 +75,31 @@ namespace eShopSolution.Application.Catalog.Products
                 Details = request.Details,
                
             };
-            //Save image 
-            if (request.ThumbnailImage != null)
+            if(request.ThumbnailImage.Count > 0)
             {
-                product.ProductImages = new List<ProductImage>()
+                product.ProductImages = new List<ProductImage>();
+                int idx = 0;
+
+                request.ThumbnailImage.ForEach(async (value) =>
                 {
-                    new ProductImage()
+                    if (value != null)
                     {
-                        Caption = "Thumbnail image",
-                        DateCreated = DateTime.Now,
-                        FileSize = request.ThumbnailImage.Length,
-                        ImagePath = await this.SaveFile(request.ThumbnailImage),
-                        IsDefault = true,
+                        product.ProductImages.Add(new ProductImage()
+                        {
+                            Caption = "Thumbnail image",
+                            DateCreated = DateTime.Now,
+                            FileSize = value.Length,
+                            ImagePath = await this.SaveFile(value),
+                            IsDefault = idx == 0 ?  true : false ,
+                        });
+                        idx++;
+
+
                     }
-                };
+                });
             }
+            //Save image 
+            
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
             return product.Id;
@@ -115,14 +125,14 @@ namespace eShopSolution.Application.Catalog.Products
         {
             //1. Select join
             var query = from p in _context.Products
-                        join pic in _context.ProductInCategories on p.Id equals pic.ProductId into ppic
-                        from pic in ppic.DefaultIfEmpty()
-                        join c in _context.Categories on pic.CategoryId equals c.Id into picc
-                        from c in picc.DefaultIfEmpty()
-                        join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
-                        from pi in ppi.DefaultIfEmpty()
-                        where pi.IsDefault == true
-                        select new { p, pic, pi };
+            join pic in _context.ProductInCategories on p.Id equals pic.ProductId into ppic
+            from pic in ppic.DefaultIfEmpty()
+            join c in _context.Categories on pic.CategoryId equals c.Id into picc
+            from c in picc.DefaultIfEmpty()
+            join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
+            from pi in ppi.DefaultIfEmpty()
+            where pi.IsDefault == true
+            select new { p, pic, pi };
             //2. filter
             if (!string.IsNullOrEmpty(request.Keyword))
                 query = query.Where(x => x.p.Name.Contains(request.Keyword));
@@ -151,7 +161,10 @@ namespace eShopSolution.Application.Catalog.Products
                     SeoTitle = x.p.SeoTitle,
                     Stock = x.p.Stock,
                     ViewCount = x.p.ViewCount,
-                    ThumbnailImage = x.pi.ImagePath
+                    ThumbnailImage = new List<string>()
+                    {
+                        x.pi.ImagePath
+                    }
                 }).ToListAsync();
 
             //4. Select and projection
@@ -174,8 +187,7 @@ namespace eShopSolution.Application.Catalog.Products
                                     where pic.ProductId == productId
                                     select c.Name).ToListAsync();
 
-            var image = await _context.ProductImages.Where(x => x.ProductId == productId && x.IsDefault == true).FirstOrDefaultAsync();
-
+            var image = await _context.ProductImages.Where(x => x.ProductId == productId).ToListAsync();
             var productViewModel = new ProductVm()
             {
                 Id = product.Id,
@@ -191,7 +203,7 @@ namespace eShopSolution.Application.Catalog.Products
                 Stock = product.Stock,
                 ViewCount = product.ViewCount,
                 Categories = categories,
-                ThumbnailImage = image != null ? image.ImagePath : "no-image.jpg"
+                ThumbnailImage = image.Count > 0 ? image.Select(x => x.ImagePath).ToList() : new List<string>() { "no-image.png" }
             };
             return productViewModel;
         }
@@ -244,7 +256,7 @@ namespace eShopSolution.Application.Catalog.Products
         public async Task<int> Update(ProductUpdateRequest request)
         {
             var product = await _context.Products.FindAsync(request.Id);
-            
+            var productImages =  await _context.ProductImages.Where(x=>x.ProductId == request.Id).ToListAsync();
 
             if (product == null) throw new EShopException($"Cannot find a product with id: {request.Id}");
 
@@ -256,16 +268,36 @@ namespace eShopSolution.Application.Catalog.Products
             product.Details = request.Details;
 
             //Save image
-            if (request.ThumbnailImage != null)
+            if (request.ThumbnailImage.Count > 0)
             {
-                var thumbnailImage = await _context.ProductImages.FirstOrDefaultAsync(i => i.IsDefault == true && i.ProductId == request.Id);
-                if (thumbnailImage != null)
+                product.ProductImages = new List<ProductImage>();
+                int idx = 0;
+
+                if (productImages.Count > 0)
                 {
-                    thumbnailImage.FileSize = request.ThumbnailImage.Length;
-                    thumbnailImage.ImagePath = await this.SaveFile(request.ThumbnailImage);
-                    _context.ProductImages.Update(thumbnailImage);
+                    product.ProductImages.AddRange(productImages);
+                    idx = 1;
                 }
+
+                request.ThumbnailImage.ForEach(async (value) =>
+                {
+                    if (value != null)
+                    {
+                        product.ProductImages.Add(new ProductImage()
+                        {
+                            Caption = "Thumbnail image",
+                            DateCreated = DateTime.Now,
+                            FileSize = value.Length,
+                            ImagePath = await this.SaveFile(value),
+                            IsDefault = idx == 0 ? true : false,
+                        });
+                        idx++;
+
+
+                    }
+                });
             }
+            
             _context.Products.Update(product);
             return await _context.SaveChangesAsync();
         }
@@ -411,7 +443,10 @@ namespace eShopSolution.Application.Catalog.Products
                     SeoTitle = x.p.SeoTitle,
                     Stock = x.p.Stock,
                     ViewCount = x.p.ViewCount,
-                    ThumbnailImage = x.pi.ImagePath
+                    ThumbnailImage = new List<string>()
+                    {
+                         x.pi.ImagePath
+                    }
                 }).ToListAsync();
 
             return data;
@@ -445,7 +480,10 @@ namespace eShopSolution.Application.Catalog.Products
                     SeoTitle = x.p.SeoTitle,
                     Stock = x.p.Stock,
                     ViewCount = x.p.ViewCount,
-                    ThumbnailImage = x.pi.ImagePath
+                    ThumbnailImage = new List<string>()
+                    {
+                         x.pi.ImagePath
+                    }
                 }).ToListAsync();
 
             return data;

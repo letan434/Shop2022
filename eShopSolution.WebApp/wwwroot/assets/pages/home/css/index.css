@@ -40,3 +40,89 @@ section.banner {
         background-color: rgba(0,0,0,.18);
         border-radius: 6px;
     }
+.prd1-right-items .thumbnail {
+    display: inline-block;
+    padding: 0px;
+    margin-bottom: 0px;
+    line-height: 1.42857143;
+    background-color: #fff;
+    border: none;
+     border: #000 1px solid; 
+    border-radius: 0px;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+    .prd-detail-slide1 .thumbnail .cont-item, .prd-detail-slide .thumbnail .cont-item, .prd-detail-img .thumbnail .cont-item, .prd1-right-items .thumbnail .cont-item {
+        text-align: center;
+        overflow: hidden;
+        width: 100%;
+        padding-top: 100%;
+        position: relative;
+    }
+    .prd1-right-items .thumbnail .button {
+        text-align: center;
+        position: relative;
+        height: 60px;
+        top: -60px;
+        z-index: 85;
+    }
+    .prd1-right-items .thumbnail .caption {
+        text-align: center;
+        padding: 0px;
+        margin-top: -40px;
+    }
+
+.prd1-right-items .type {
+    font-family: NunitoSanRegular;
+    font-size: 16px;
+    color: #ff5f17;
+    margin-bottom: 5px;
+}
+.prd1-right-items .divider {
+    background-color: #fff;
+    background: url(../../../images/bg_divider.png) repeat-x 7px;
+    height: 20px;
+    margin: 4px 0px;
+}
+.cont-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+.prd1-right-items .thumbnail .btn-prd1-buynow {
+    border-radius: 0px;
+    background-color: #f15e2c;
+    border: #f15e2c 1px solid;
+    color: #fff;
+    font-family: GeometricExtraBold;
+    font-size: 23px;
+    width: 180px;
+    height: 60px;
+    padding-top: 16px;
+    opacity: 0;
+}
+.prd1-right-items .thumbnail:hover .btn-prd1-buynow {
+    -webkit-transition: opacity 0.5s ease-in-out;
+    -moz-transition: opacity 0.5s ease-in-out;
+    -ms-transition: opacity 0.5s ease-in-out;
+    -o-transition: opacity 0.5 ease-in-out;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 1;
+}
+.prd1-right-items .thumbnail .btn-prd1-heart {
+    border-radius: 0px;
+    /* background: url(../images/heart.png) no-repeat; */
+    background: url(../../../images/Heart_product_1.svg) no-repeat;
+    border: none;
+    width: 35px;
+    height: 30px;
+    position: absolute;
+    right: 10px;
+    top: 18px;
+}

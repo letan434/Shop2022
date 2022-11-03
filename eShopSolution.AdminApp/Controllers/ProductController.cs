@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using eShopSolution.ApiIntegration;
 using eShopSolution.Utilities.Constants;
@@ -110,8 +111,9 @@ namespace eShopSolution.AdminApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-
+            var baseAddress = _configuration[SystemConstants.AppSettings.BaseAddress];
             var product = await _productApiClient.GetById(id);
+
             var editVm = new ProductUpdateRequest()
             {
                 Id = product.Id,
@@ -120,8 +122,11 @@ namespace eShopSolution.AdminApp.Controllers
                 Name = product.Name,
                 SeoAlias = product.SeoAlias,
                 SeoDescription = product.SeoDescription,
-                SeoTitle = product.SeoTitle
+                SeoTitle = product.SeoTitle,
+                ImagePath = product.ThumbnailImage.Select(x => baseAddress + "/" + x).ToList()
             };
+           
+
             return View(editVm);
         }
 

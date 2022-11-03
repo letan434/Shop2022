@@ -61,7 +61,7 @@ namespace eShopSolution.AdminApp.Controllers
                         CookieAuthenticationDefaults.AuthenticationScheme,
                         userPrincipal,
                         authProperties);
-
+           
             return RedirectToAction("Index", "Home");
         }
 
