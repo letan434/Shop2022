@@ -6,17 +6,35 @@
 }
 @inject Microsoft.Extensions.Configuration.IConfiguration Configuration;
 @inject LazZiya.ExpressLocalization.ISharedCultureLocalizer _loc;
-
+@section styles {
+    <link href="~/assets/pages/product/css/detail.css" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+}
 <ul class="breadcrumb">
     <li><a href="/"><localize>Home</localize></a> <span class="divider">/</span></li>
     <li class="active">@Model.Product.Name</li>
 </ul>
 
 <div class="row">
-    <div id="gallery" class="span3">
-        <a href="@(Configuration["BaseAddress"] + Model.Product.ThumbnailImage)" title="@Model.Product.Name">
-            <img src="@(Configuration["BaseAddress"] + Model.Product.ThumbnailImage)" style="width:100%" alt="@Model.Product.Name" />
-        </a>
+    <div id="gallery" class="col-6">
+        <div class="row">
+            @for (int index = 0; index < Model.Product.ThumbnailImage.Count(); index++)
+            {
+                <div class="col-6">
+                    <div>
+                        @{
+                            var resultText = @index + 1;
+                        }
+                        Ảnh @resultText
+                    </div>
+                    <a href="@(Configuration["BaseAddress"] + Model.Product.ThumbnailImage[index])" title="@Model.Product.Name">
+                        <img src="@(Configuration["BaseAddress"] + Model.Product.ThumbnailImage[index])" style="width:100%" alt="@Model.Product.Name" />
+                    </a>
+                </div>
+
+            }
+        </div>
+
+
         <div id="differentview" class="moreOptopm carousel slide">
             <div class="carousel-inner">
                 <div class="item active">
@@ -47,13 +65,13 @@
             </div>
         </div>
     </div>
-    <div class="span6">
-        <h3>@Model.Product.Name</h3>
+    <div class="col-6">
+        <h3 class="name-style">@Model.Product.Name</h3>
         <small>@Model.Product.Description</small>
         <hr class="soft" />
         <form class="form-horizontal qtyFrm">
             <div class="control-group">
-                <label class="control-label"><span>$222.00</span></label>
+                <label class="control-label"><span>@Model.Product.Price</span></label>
                 <div class="controls">
                     <input type="number" class="span1" placeholder="Qty." />
                     <button type="submit" class="btn btn-large btn-primary pull-right"> <localize>Add to</localize> <i class=" icon-shopping-cart"></i></button>
@@ -62,7 +80,7 @@
         </form>
 
         <hr class="soft" />
-        <h4>100 items in stock</h4>
+        <h4>@Model.Product.Stock còn lại</h4>
         <form class="form-horizontal qtyFrm pull-right">
             <div class="control-group">
                 <label class="control-label"><span>Color</span></label>

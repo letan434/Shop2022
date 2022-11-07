@@ -10,6 +10,8 @@
     <Folder Include="wwwroot\assets\js\" />
     <Folder Include="wwwroot\assets\css\" />
     <Folder Include="wwwroot\assets\images\" />
+    <Folder Include="wwwroot\assets\pages\product\" />
+    <Folder Include="wwwroot\assets\pages\product\css\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,5 +29,7 @@
     <Content Remove="wwwroot\assets\js\" />
     <Content Remove="wwwroot\assets\css\" />
     <Content Remove="wwwroot\assets\images\" />
+    <Content Remove="wwwroot\assets\pages\product\" />
+    <Content Remove="wwwroot\assets\pages\product\css\" />
   </ItemGroup>
 </Project>

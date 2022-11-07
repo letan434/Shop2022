@@ -180,7 +180,7 @@ namespace eShopSolution.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "2d9d73e5-ea97-4c70-bb50-2b5e82af52d7",
+                            ConcurrencyStamp = "546ab93c-1c35-416b-aa59-9f8f8bae9ced",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -257,7 +257,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a676e47f-cfea-4231-af2d-752ff8838e6d",
+                            ConcurrencyStamp = "9d8921ec-83fa-4eb1-a78c-25c8095715da",
                             Dob = new DateTime(1998, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin14399@gmail.com",
                             EmailConfirmed = true,
@@ -266,7 +266,7 @@ namespace eShopSolution.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "admin14399@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDG7UQ7KHGBukW+3Re2LBCCJYzJzL/kpU7rMt9pjIkZqBSToNRSgNufCxm7yTE5E1Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDQT02jlM8kZqt6YY8kixOw0T2LvEOcE4kyv1e8hpBx9Bn76ZUyWp/eeb7aRcVtPuA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -588,7 +588,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = 1,
                             BodyType = "Jazzmaster®",
-                            DateCreated = new DateTime(2022, 10, 18, 22, 2, 54, 453, DateTimeKind.Local).AddTicks(7100),
+                            DateCreated = new DateTime(2022, 11, 7, 10, 27, 24, 383, DateTimeKind.Local).AddTicks(4750),
                             Description = "Paranormal Offset Telecaster® là một sự kết hợp tinh tế những tính năng tuyệt vời của guitar Fender, kết hợp các yếu tố của Tele® mang tính biểu tượng với phong cách và sự thoải máu của thân đàn offset Jazzmaster®. Sở hữu cặp pickup single-coil alnico do Fender thiết kế và ngựa đàn string-through-body, chất âm linh hoạt của mẫu guitar này sẽ cất tiếng với sustain. Những đặc điểm khác bao gồm cần đàn kiểu slim “C” với finish gloss cho cảm giác bóng bẩy và hardware bằng chrome để toả sáng dưới ánh đèn sân khấu.",
                             Details = "Squier Paranormal Series Offset Telecaster Electric Guitar, Butterscotch Blonde",
                             FaceMaterial = "Maple",
@@ -618,7 +618,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = 2,
                             BodyType = "Jazzmaster®",
-                            DateCreated = new DateTime(2022, 10, 18, 22, 2, 54, 465, DateTimeKind.Local).AddTicks(1470),
+                            DateCreated = new DateTime(2022, 11, 7, 10, 27, 24, 393, DateTimeKind.Local).AddTicks(6000),
                             Description = "Paranormal Offset Telecaster® là một sự kết hợp tinh tế những tính năng tuyệt vời của guitar Fender, kết hợp các yếu tố của Tele® mang tính biểu tượng với phong cách và sự thoải máu của thân đàn offset Jazzmaster®. Sở hữu cặp pickup single-coil alnico do Fender thiết kế và ngựa đàn string-through-body, chất âm linh hoạt của mẫu guitar này sẽ cất tiếng với sustain. Những đặc điểm khác bao gồm cần đàn kiểu slim “C” với finish gloss cho cảm giác bóng bẩy và hardware bằng chrome để toả sáng dưới ánh đèn sân khấu.",
                             Details = "Squier Paranormal Series Offset Telecaster Electric Guitar, Olympic White",
                             FaceMaterial = "Maple",
@@ -648,7 +648,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = 3,
                             BodyType = "Jazzmaster®",
-                            DateCreated = new DateTime(2022, 10, 18, 22, 2, 54, 465, DateTimeKind.Local).AddTicks(1820),
+                            DateCreated = new DateTime(2022, 11, 7, 10, 27, 24, 393, DateTimeKind.Local).AddTicks(6290),
                             Description = "Latin Percussion LP1433 Angled Cajon có mặt đánh góc cạnh thiết kế công thái học giúp dễ thao tác hơn. Mặt trước góc cạnh đặt bề mặt chơi gần tay của bạn ở vị trí tự nhiên hơn khi chạm xuống bảng âm. Mang cấu trúc hoàn toàn bằng gỗ và 3 dây snare bên trong tăng độ nhạy và sự biểu đạt, có mặt ghế ngồi kết cấu chống trượt.",
                             Details = "Latin Percussion LP1433 Angled Surface Cajon",
                             FaceMaterial = "Maple",
@@ -823,9 +823,9 @@ namespace eShopSolution.Data.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
+                            Description = "",
                             Image = "/themes/images/carousel/1.png",
-                            Name = "Second Thumbnail label",
+                            Name = "",
                             SortOrder = 1,
                             Status = 1,
                             Url = "#"
@@ -833,9 +833,9 @@ namespace eShopSolution.Data.Migrations
                         new
                         {
                             Id = 2,
-                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
-                            Image = "/themes/images/carousel/2.png",
-                            Name = "Second Thumbnail label",
+                            Description = "",
+                            Image = "/themes/images/carousel/2.jpg",
+                            Name = "",
                             SortOrder = 2,
                             Status = 1,
                             Url = "#"
@@ -843,9 +843,9 @@ namespace eShopSolution.Data.Migrations
                         new
                         {
                             Id = 3,
-                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
-                            Image = "/themes/images/carousel/3.png",
-                            Name = "Second Thumbnail label",
+                            Description = "",
+                            Image = "/themes/images/carousel/3.jpg",
+                            Name = "",
                             SortOrder = 3,
                             Status = 1,
                             Url = "#"
@@ -853,9 +853,9 @@ namespace eShopSolution.Data.Migrations
                         new
                         {
                             Id = 4,
-                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
-                            Image = "/themes/images/carousel/4.png",
-                            Name = "Second Thumbnail label",
+                            Description = "",
+                            Image = "/themes/images/carousel/4.jpg",
+                            Name = "",
                             SortOrder = 4,
                             Status = 1,
                             Url = "#"
@@ -863,9 +863,9 @@ namespace eShopSolution.Data.Migrations
                         new
                         {
                             Id = 5,
-                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
-                            Image = "/themes/images/carousel/5.png",
-                            Name = "Second Thumbnail label",
+                            Description = "",
+                            Image = "/themes/images/carousel/5.jpg",
+                            Name = "",
                             SortOrder = 5,
                             Status = 1,
                             Url = "#"
@@ -873,9 +873,9 @@ namespace eShopSolution.Data.Migrations
                         new
                         {
                             Id = 6,
-                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
+                            Description = "",
                             Image = "/themes/images/carousel/6.png",
-                            Name = "Second Thumbnail label",
+                            Name = "",
                             SortOrder = 6,
                             Status = 1,
                             Url = "#"
