@@ -12,6 +12,8 @@
     <Folder Include="wwwroot\assets\images\" />
     <Folder Include="wwwroot\assets\pages\product\" />
     <Folder Include="wwwroot\assets\pages\product\css\" />
+    <Folder Include="wwwroot\assets\pages\account\" />
+    <Folder Include="wwwroot\assets\pages\account\css\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,5 +33,7 @@
     <Content Remove="wwwroot\assets\images\" />
     <Content Remove="wwwroot\assets\pages\product\" />
     <Content Remove="wwwroot\assets\pages\product\css\" />
+    <Content Remove="wwwroot\assets\pages\account\" />
+    <Content Remove="wwwroot\assets\pages\account\css\" />
   </ItemGroup>
 </Project>

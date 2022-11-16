@@ -44,5 +44,19 @@ namespace eShopSolution.WebApp.Controllers
                 Products = products
             }); ;
         }
+        public async Task<IActionResult> GetAll(string culture ,string keyword, int page = 1, int categoryId = 0)
+        {
+            var products = await _productApiClient.GetPagings(new GetManageProductPagingRequest()
+            {
+                CategoryId = categoryId,
+                PageIndex = page,
+                LanguageId = culture,
+                PageSize = 10
+            });
+            return View(new ProductPagingViewModel()
+            {
+                Products = products
+            }); 
+        }
     }
 }

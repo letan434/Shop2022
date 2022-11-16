@@ -4,48 +4,53 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var culture = CultureInfo.CurrentCulture.Name;
 }
+@section styles {
+    <link href="~/assets/pages/account/css/login.css" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+}
 <ul class="breadcrumb">
-    <li><a href="/">Home</a> <span class="divider">/</span></li>
-    <li class="active">Login</li>
+    <li><a href="/">Trang chủ</a> <span class="divider">/</span></li>
+    <li class="active">&nbsp; Đăng nhập</li>
 </ul>
-<h3> Login</h3>
+<h3> Đăng nhập</h3>
 <hr class="soft" />
 
 <div class="row">
-    <div class="span4">
+    <div class="col-6">
         <div class="well">
-            <h5>CREATE YOUR ACCOUNT</h5><br />
-            Enter your e-mail address to create an account.<br /><br /><br />
+            <h5>Tạo tài khoản mới</h5><br />
             <form action="register.html">
-
-                <div class="controls">
-                    <a href="/@culture/Account/Register" class="btn block">Create Your Account</a>
+                <div class=" col-6">
+                    <a href="/@culture/Account/Register" class=" rigsiter-btn btn block">Tạo tài khoản mới</a>
                 </div>
             </form>
         </div>
     </div>
-    <div class="span1"> &nbsp;</div>
-    <div class="span4">
+    <div class="col-6">
         <div class="well">
-            <h5>ALREADY REGISTERED ?</h5>
+            <h5>Nếu đã có tài khoản ?</h5>
             <form action="/@culture/Account/Login" method="post">
-                <div class="control-group">
-                    <label class="control-label" for="inputEmail1">Email</label>
-                    <div class="controls">
-                        <input class="span3" type="text" asp-for="UserName" placeholder="Email">
+                <label class="text mb-1" for="inputEmail1" id="basic-addon1">Tài khoản</label>
+
+                <div class="input-group  mb-3">
+                    <div class="col-6">
+                        <input class="form-control " type="text" asp-for="UserName" placeholder="UserName" aria-describedby="basic-addon1">
                         <span asp-validation-for="UserName" class="text-error"></span>
                     </div>
+                   
+
                 </div>
-                <div class="control-group">
-                    <label class="control-label" for="inputPassword1">Password</label>
-                    <div class="controls">
-                        <input type="password" class="span3" asp-for="Password" placeholder="Password">
+                <label class="text mb-1" for="inputPassword1">Mật khẩu</label>
+
+                <div class="input-group mb-3">
+                    <div class="col-6">
+                        <input type="password" class="form-control" asp-for="Password" placeholder="Password">
                         <span asp-validation-for="Password" class="text-error"></span>
                     </div>
                 </div>
-                <div class="control-group">
-                    <div class="controls">
-                        <button type="submit" class="btn">Sign in</button> <a href="forgetpass.html">Forget password?</a>
+                <div class="mb-3">
+                    <div class=" col-6">
+                        <button type="submit" class="login-btn btn">Đăng nhập</button>
+                        @*<a href="forgetpass.html">Forget password?</a>*@
                     </div>
                 </div>
             </form>

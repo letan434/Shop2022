@@ -1,0 +1,70 @@
+﻿@model ProductPagingViewModel
+
+@{ ViewData["Title"] = "Danh sách sản phẩm";
+    ViewData["Description"] =  (Model.Products.PageIndex == 1 ? "" : " - " + _loc["Page"] + " " + Model.Products.PageIndex);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var culture = CultureInfo.CurrentCulture; }
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration;
+@inject LazZiya.ExpressLocalization.ISharedCultureLocalizer _loc;
+@section styles {
+    <link href="~/assets/pages/home/css/index.css" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+}
+<ul class="breadcrumb">
+    <li><a href="/">Trang chủ</a> <span class="divider">/</span></li>
+</ul>
+<hr class="soft" />
+
+<form class="form-horizontal span6">
+    <div class="control-group">
+        <label class="control-label alignL"><localize>Sort By</localize> </label>
+        <select>
+            <option>Priduct name A - Z</option>
+            <option>Priduct name Z - A</option>
+            <option>Priduct Stoke</option>
+            <option>Price Lowest first</option>
+        </select>
+    </div>
+</form>
+<br class="clr" />
+
+<div class="row prd1-right-items">
+
+
+
+    @for (int idx = 0; idx < Model.Products.Items.Count; idx++)
+    {
+
+        var item = Model.Products.Items[idx];
+
+
+        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 item">
+            <div class="thumbnail">
+
+                <div class="cont-item">
+                    <a href="/@culture.Name/@_loc["products"]/@item.Id"><img src="@(Configuration["BaseAddress"] + item.ThumbnailImage[0])" alt="@item.Name" style="width: 100%; height: auto"></a>
+
+
+                </div>
+                <div class="button">
+                    <a class="btn btn-prd1-buynow hidden-xs hidden-sm" href="/">
+                        Thêm vào giỏ
+                    </a>
+                    <a class="btn btn-prd1-heart addToWishList" href="javascript:void(0)" data-liked="false" data-action="transferCartToWishList" data-idproduct="713796"></a>
+                </div>
+                <div class="caption">
+                    <h3 class="type">@item.Name</h3>
+                    <h3 class="divider"></h3>
+                    <h3 class="name">
+                        <a class="btn" href="/@culture.Name/@_loc["products"]/@item.Id" localize-content>Xem chi tiết</a>
+                    </h3>
+                    <h3 class="color">Sản phẩm mới</h3>
+                    <h3 class="price">
+                        @item.Price.ToString()
+                    </h3>
+                </div>
+
+            </div>
+        </div>}
+</div>
+@await Component.InvokeAsync("Pager", Model.Products)
+<br class="clr" />

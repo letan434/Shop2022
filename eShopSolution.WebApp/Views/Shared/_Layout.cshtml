@@ -83,12 +83,12 @@
                     hello
                 </button>
                 <div class="collapse navbar-collapse justify-content-end col">
-                    <form class="row g-3" method="post" action="products.html">
+                    <form class="row g-3" method="get" action="vi/danh-sach/keywork={keyword}&&categoryId={categoryId}&&page={page}" >
                         <div class="col-auto">
-                            <input id="srchFld" class="form-control" type="text" placeholder="Bạn tìm gì ..." />
+                            <input name="keyword" id="srchFld" class="form-control" type="text" placeholder="Bạn tìm gì ..." />
                         </div>
                         <div class="col-auto">
-                            <select class="form-select">
+                            <select name="categoryId" class="form-select">
                                 <option selected>Tất cả</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
@@ -108,7 +108,7 @@
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <form action="/@culture/Account/Logout" method="post">
-                                    <button type="submit" style="padding-right:0;margin-top:10px;margin-bottom:0px;background:transparent;border:none;">
+                                    <button type="submit" style="padding:0px">
                                         <span class="btn btn-large btn-success"><localize>Đăng xuất</localize></span>
                                     </button>
                                 </form> }
