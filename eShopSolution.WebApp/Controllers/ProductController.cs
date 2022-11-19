@@ -51,7 +51,8 @@ namespace eShopSolution.WebApp.Controllers
                 CategoryId = categoryId,
                 PageIndex = page,
                 LanguageId = culture,
-                PageSize = 10
+                PageSize = 10,
+                Keyword = keyword,
             });
             return View(new ProductPagingViewModel()
             {

@@ -83,13 +83,14 @@
                     hello
                 </button>
                 <div class="collapse navbar-collapse justify-content-end col">
-                    <form class="row g-3" method="get" action="vi/danh-sach/keywork={keyword}&&categoryId={categoryId}&&page={page}" >
+                    <form class="row g-3" method="get" action="vi/product/GetAll" >
+
                         <div class="col-auto">
                             <input name="keyword" id="srchFld" class="form-control" type="text" placeholder="Bạn tìm gì ..." />
                         </div>
                         <div class="col-auto">
                             <select name="categoryId" class="form-select">
-                                <option selected>Tất cả</option>
+                                <option selected value="">Tất cả</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
                                 <option value="3">Three</option>
@@ -97,6 +98,7 @@
                             </select>
                         </div>
                         <div class="col-auto">
+                          
                             <button type="submit" id="submitButton" class="btn btn-primary">Tìm kiếm</button>
                         </div>
                     </form>
