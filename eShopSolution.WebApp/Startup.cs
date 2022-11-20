@@ -128,13 +128,13 @@ namespace eShopSolution.WebApp
                       action = "Category"
                   });
 
-                endpoints.MapControllerRoute(
-                    name: "Product Detail En",
-                    pattern: "{culture}/products/{id}", new
-                    {
-                        controller = "Product",
-                        action = "Detail"
-                    });
+                //endpoints.MapControllerRoute(
+                //    name: "Product Detail En",
+                //    pattern: "{culture}/products/{id}", new
+                //    {
+                //        controller = "Product",
+                //        action = "Detail"
+                //    });
 
                 endpoints.MapControllerRoute(
                   name: "Product Detail Vn",

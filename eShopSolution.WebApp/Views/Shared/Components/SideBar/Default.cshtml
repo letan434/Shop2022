@@ -4,7 +4,6 @@
     var culture = CultureInfo.CurrentCulture.Name;
 }
 <div id="sidebar" class="col-3">
-    
     <ul id="sideManu" class="nav nav-tabs nav-stacked">
         @{
             var parents = Model.Where(x => x.ParentId == null);

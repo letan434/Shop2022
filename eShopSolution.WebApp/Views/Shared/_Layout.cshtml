@@ -83,17 +83,20 @@
                     hello
                 </button>
                 <div class="collapse navbar-collapse justify-content-end col">
-                    <form class="row g-3" method="get" action="vi/product/GetAll" >
+                    <form class="row g-3" method="get"  action="@Url.Action("GetAll", "Product")"  >
 
                         <div class="col-auto">
                             <input name="keyword" id="srchFld" class="form-control" type="text" placeholder="Bạn tìm gì ..." />
                         </div>
                         <div class="col-auto">
+                            @*<select name="categoryId" asp-items="@ViewBag.Categories" class="form-control">
+                                <option>--Tất cả--</option>
+                            </select>*@
                             <select name="categoryId" class="form-select">
                                 <option selected value="">Tất cả</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                <option value="1">Guitar & Bass</option>
+                                <option value="2">Trống và bộ gõ</option>
+                                @*<option value="3">Three</option>*@
 
                             </select>
                         </div>

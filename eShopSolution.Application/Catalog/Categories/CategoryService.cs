@@ -25,18 +25,21 @@ namespace eShopSolution.Application.Catalog.Categories
             {
                 Id = x.Id,
                 Name = x.Name,
-                ParentId = x.ParentId
+                ParentId = x.ParentId,
+                Description = x.SeoDescription
+
             }).ToListAsync();
         }
 
         public async Task<CategoryVm> GetById(int id)
         {
            
-            return await _context.Categories.Select(x => new CategoryVm()
+            return await _context.Categories.Where(x=>x.Id == id).Select(x => new CategoryVm()
             {
                 Id = x.Id,
                 Name = x.Name,
-                ParentId = x.ParentId
+                ParentId = x.ParentId,
+                Description = x.SeoDescription
             }).FirstOrDefaultAsync();
         }
     }

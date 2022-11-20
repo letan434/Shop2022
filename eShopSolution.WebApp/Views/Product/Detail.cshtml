@@ -69,8 +69,8 @@
         <h3 class="name-style">@Model.Product.Name</h3>
         <small>@Model.Product.Description</small>
         <hr class="soft" />
-        <form class="form-horizontal qtyFrm">
-            <div class="control-group">
+        <form class="form-horizontal qtyFrm"  method="post"  action="@Url.Action("AddToCart", "Cart")">
+            <div class="input-group">
                 <label class="control-label"><span>@Model.Product.Price</span></label>
                 <div class="controls">
                     <input type="number" class="span1" placeholder="Qty." />

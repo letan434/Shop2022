@@ -126,3 +126,7 @@ section.banner {
     right: 10px;
     top: 18px;
 }
+.prd1-right-items .name .btn {
+    background: #2962FF;
+    color:white;
+}

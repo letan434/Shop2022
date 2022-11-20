@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using eShopSolution.Application.Catalog.Categories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,13 +22,15 @@ namespace eShopSolution.BackendApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
+
         public async Task<IActionResult> GetAll()
         {
             var products = await _categoryService.GetAll();
             return Ok(products);
         }
-
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetById( int id)
         {
             var category = await _categoryService.GetById( id);

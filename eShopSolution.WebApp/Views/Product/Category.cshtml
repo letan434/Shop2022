@@ -10,21 +10,18 @@
     <link href="~/assets/pages/home/css/index.css" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
 }
 <ul class="breadcrumb">
-    <li><a href="/">Trang chủ</a> <span class="divider">/</span></li>
+    <li><a href="/">Trang chủ</a> <span class="divider">/&nbsp;</span></li>
     <li class="active">@Model.Category.Name</li>
 </ul>
 <h3> @Model.Category.Name <small class="pull-right"> 40 <localize>available products</localize> </small></h3>
 <hr class="soft" />
 <p>
-    Guitar bass là một loại đàn guitar với những đặc điểm chung của loại đàn này là loại nhạc cụ dây sử dụng các ngón tay để chơi nhạc. Guitar bass về mặt hình dáng có cấu trúc khá giống một cây guitar điện.
-    Các cây guitar bass chủ yếu có 4 dây (E, A, D, G) cho âm thanh trầm. Dây đàn làm bằng kim loại. Tuy nhiên, kể từ năm 1967 đã ra đời thêm đàn guitar bass 5 dây, 6 dây, thậm chí là 7 dây đến 15 dây như hiện nay.
-    Đàn guitar bass có cấu trúc thân đàn đặc gắn bộ phận khuếch tán. Cần đàn được chia làm từ 22 đến 24 ngăn. Chất liệu làm đàn chủ yếu là gỗ, kim loại hoặc plastic.
-    Đàn guitar bass có âm vực rộng 3 quãng 8, thấp hơn so với guitar điện. Âm thanh phát ra chủ yếu là các nốt trầm. Chính đặc điểm điểm này khiến guitar bass có vai trò đặc biệt trong dàn nhạc.
+    @Model.Category.Description
 </p>
 <hr class="soft" />
-<form class="form-horizontal span6">
+<form class="form-horizontal div-6">
     <div class="control-group">
-        <label class="control-label alignL"><localize>Sort By</localize> </label>
+        <label class="form-label"><localize>Sort By</localize> </label>
         <select>
             <option>Priduct name A - Z</option>
             <option>Priduct name Z - A</option>
@@ -34,10 +31,10 @@
     </div>
 </form>
 
-<div id="myTab" class="pull-right">
+@*<div id="myTab" class="pull-right">
     <a href="#listView" data-toggle="tab"><span class="btn btn-large"><i class="icon-list"></i></span></a>
     <a href="#blockView" data-toggle="tab"><span class="btn btn-large btn-primary"><i class="icon-th-large"></i></span></a>
-</div>
+</div>*@
 <br class="clr" />
 
 <div class="row prd1-right-items">
@@ -70,7 +67,8 @@
             <h3 class="name">
                 <a class="btn" href="/@culture.Name/@_loc["products"]/@item.Id" localize-content>Xem chi tiết</a>
             </h3>
-            <h3 class="color">Sản phẩm mới</h3>
+
+            <h3 class="color">@item.SeoAlias</h3>
             <h3 class="price">
                 @item.Price.ToString()
             </h3>

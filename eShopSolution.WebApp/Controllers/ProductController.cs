@@ -38,9 +38,10 @@ namespace eShopSolution.WebApp.Controllers
                 LanguageId = culture,
                 PageSize = 10
             });
+            var category = await _categoryApiClient.GetById(id);
             return View(new ProductCategoryViewModel()
             {
-                Category = await _categoryApiClient.GetById(id),
+                Category = category,
                 Products = products
             }); ;
         }
