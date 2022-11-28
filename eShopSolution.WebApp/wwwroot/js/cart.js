@@ -27,10 +27,9 @@
     }
 
     function updateCart(id, quantity) {
-        const culture = $('#hidCulture').val();
         $.ajax({
             type: "POST",
-            url: "/" + culture + '/Cart/UpdateCart',
+            url: "/vi"  + '/Cart/UpdateCart',
             data: {
                 id: id,
                 quantity: quantity

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using eShopSolution.Application.Catalog.Categories;
+using eShopSolution.Application.Catalog.orders;
 using eShopSolution.Application.Catalog.Products;
 using eShopSolution.Application.Common;
 using eShopSolution.Application.System.Roles;
@@ -48,6 +49,7 @@ namespace eShopSolution.BackendApi
 
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IOrderService, OrderService>();
 
             services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();

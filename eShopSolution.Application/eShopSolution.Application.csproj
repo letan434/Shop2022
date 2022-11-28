@@ -19,4 +19,10 @@
     <ProjectReference Include="..\eShopSolution.ViewModels\eShopSolution.ViewModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Catalog\orders\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Catalog\orders\" />
+  </ItemGroup>
 </Project>

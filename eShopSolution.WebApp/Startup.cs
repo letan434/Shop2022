@@ -84,6 +84,8 @@ namespace eShopSolution.WebApp
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ISlideApiClient, SlideApiClient>();
             services.AddTransient<IProductApiClient, ProductApiClient>();
+            services.AddTransient<IOrderApiClient, OrderApiClient>();
+
             services.AddTransient<ICategoryApiClient, CategoryApiClient>();
             services.AddTransient<IUserApiClient, UserApiClient>();
         }
