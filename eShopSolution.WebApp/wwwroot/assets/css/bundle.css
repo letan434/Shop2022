@@ -1,10 +1,9 @@
-﻿
-
-body {
+﻿body {
     position: relative;
     font-family: 'Montserrat', sans-serif;
     overflow-x: hidden;
     margin: 0;
+    background: #fff;
 }
 
 .container {
@@ -15,13 +14,12 @@ body {
 
 .footer {
     position: relative;
-    background: #295131;
+    background: #4c4c4c;
     padding-top: 54px;
     color: #FFFFFF;
     padding-bottom: 54px;
     margin: 0;
     overflow-x: hidden;
-
 }
 /* HEADER */
 section.header {
@@ -566,7 +564,7 @@ btn-advisory {
 
 /* FOOTER */
 section.footer {
-    background-color: #0493d3 !important;
+    background-color: #4c4c4c !important;
     display: inline-block;
     width: 100%;
 }
