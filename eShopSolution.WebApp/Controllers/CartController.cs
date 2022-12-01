@@ -46,7 +46,8 @@ namespace eShopSolution.WebApp.Controllers
                 orderDetails.Add(new OrderDetailVm()
                 {
                     ProductId = item.ProductId,
-                    Quantity = item.Quantity
+                    Quantity = item.Quantity,
+                    Price = item.Price,
                 });
             }
             var checkoutRequest = new CheckoutRequest()
@@ -66,7 +67,7 @@ namespace eShopSolution.WebApp.Controllers
             }
             else
             {
-                TempData["SuccessMsg"] = "Gửi phiếu mua hàng that bai, chúng tôi sẽ liên hệ sớm cho bạn";
+                TempData["ErrorMsg"] = "Gửi phiếu mua hàng thất bại, mong bạn kiểm tra lại thông tin";
 
             }
             return View(model);
@@ -82,7 +83,7 @@ namespace eShopSolution.WebApp.Controllers
             return Ok(currentCart);
         }
 
-        public async Task<IActionResult> AddToCart(int id)
+        public async Task<IActionResult> AddToCart(int id, int quantity = 1)
         {
             var product = await _productApiClient.GetById(id);
 
@@ -91,7 +92,6 @@ namespace eShopSolution.WebApp.Controllers
             if (session != null)
                 currentCart = JsonConvert.DeserializeObject<List<CartItemViewModel>>(session);
 
-            int quantity = 1;
             if (currentCart.Any(x => x.ProductId == id))
             {
                 quantity = currentCart.First(x => x.ProductId == id).Quantity + 1;

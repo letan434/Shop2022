@@ -10,7 +10,7 @@
     <link href="~/assets/pages/product/css/detail.css" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
 }
 <ul class="breadcrumb">
-    <li><a href="/"><localize>Home</localize></a> <span class="divider">/</span></li>
+    <li><a href="/"><localize>Home</localize></a> <span class="divider">/&nbsp;</span></li>
     <li class="active">@Model.Product.Name</li>
 </ul>
 
@@ -69,19 +69,27 @@
         <h3 class="name-style">@Model.Product.Name</h3>
         <small>@Model.Product.Description</small>
         <hr class="soft" />
-        <form class="form-horizontal qtyFrm"  method="post"  action="@Url.Action("AddToCart", "Cart")">
-            <div class="input-group">
-                <label class="control-label"><span>@Model.Product.Price</span></label>
-                <div class="controls">
-                    <input type="number" class="span1" placeholder="Qty." />
-                    <button type="submit" class="btn btn-large btn-primary pull-right"> <localize>Add to</localize> <i class=" icon-shopping-cart"></i></button>
+        <form class="qtyFrm ">
+            @*method="post"  action="@Url.Action("AddToCart", "Cart", @Model.Product)"*@
+            <label class="control-label">Giá: <span>@Model.Product.Price</span>VND</label>
+            <div class="input-group row">
+                <div class="col-3 m-auto">
+                    <label class="control-label align-items-end ">Số lượng: </label>
+
+                </div>
+                <div class="col-2">
+                    <input type="number" id="value_quantity" class="form-control"  value="1" />
+                </div>
+                <div class="col-7">
+                    <button type="submit" class=" btn btn-large btn-primary pull-right btn-add-cart "  data-id="@Model.Product.Id" > <localize>Add to</localize> <i class=" icon-shopping-cart"></i></button>
+
                 </div>
             </div>
         </form>
 
         <hr class="soft" />
-        <h4>@Model.Product.Stock còn lại</h4>
-        <form class="form-horizontal qtyFrm pull-right">
+        <h4>@Model.Product.Stock sản còn trong kho</h4>
+        @*<form class="form-horizontal qtyFrm pull-right">
             <div class="control-group">
                 <label class="control-label"><span>Color</span></label>
                 <div class="controls">
@@ -93,7 +101,7 @@
                     </select>
                 </div>
             </div>
-        </form>
+        </form>*@
         <hr class="soft clr" />
         <p>
             @Html.Raw(Model.Product.Details)

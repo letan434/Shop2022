@@ -8,6 +8,7 @@ using eShopSolution.Utilities.Constants;
 using eShopSolution.ViewModels.Sales;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace eShopSolution.ApiIntegration
 {
@@ -35,33 +36,9 @@ namespace eShopSolution.ApiIntegration
 
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration[SystemConstants.AppSettings.BaseAddress]);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-
-            //var requestContent = new MultipartFormDataContent();
-            var requestContent = new MultipartFormDataContent();
-
-            requestContent.Add(new StringContent(request.Address.ToString()), "address");
-
-            requestContent.Add(new StringContent(request.PhoneNumber.ToString()), "phoneNumber");
-            requestContent.Add(new StringContent(request.Name.ToString()), "name");
-            requestContent.Add(new StringContent(request.Email.ToString()), "email");
-            //var dataOrderDetail = new MultipartFormDataContent();
-            //if (request.OrderDetails.Count > 0)
-            //{
-            //    request.OrderDetails.ForEach(
-            //        value =>
-            //        {
-            //            if (value != null)
-            //            {
-            //                dataOrderDetail.Add(new StringContent(value.ProductId.ToString()), "productId");
-            //                dataOrderDetail.Add(new StringContent(value.Quantity.ToString()), "quantity");
-
-            //            }
-            //            requestContent.Add(dataOrderDetail, "orderDetail");
-
-            //        });
-            //}
-            var response = await client.PostAsync($"/api/Orders/checkout/", requestContent);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);          
+            var json = JsonConvert.SerializeObject(request);
+            var response = await client.PostAsync($"/api/Orders/checkout/", new StringContent(json, Encoding.UTF8, "application/json"));
             return response.IsSuccessStatusCode;
 
         }

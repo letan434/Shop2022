@@ -22,9 +22,8 @@ namespace eShopSolution.BackendApi.Controllers
             _orderService = orderService;
         }
         [HttpPost("checkout")]
-        [Consumes("multipart/form-data")]
-        [Authorize]
-        public async Task<IActionResult> Checkout( CheckoutRequest request)
+        [AllowAnonymous]
+        public async Task<IActionResult> Checkout(CheckoutRequest request)
         {
             if (!ModelState.IsValid)
             {

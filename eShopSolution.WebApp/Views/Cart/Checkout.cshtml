@@ -16,10 +16,15 @@
     <a href="/" class="btn btn-large pull-right"><i class="icon-arrow-left"></i> Tiếp tục mua hàng </a>
 </h3>
 <hr class="soft" />
+@if (TempData["ErrorMsg"] != null)
+{
+    <span class="alert alert-danger">@TempData["ErrorMsg"]</span>
+}
 @if (TempData["SuccessMsg"] != null)
 {
     <span class="alert alert-success">@TempData["SuccessMsg"]</span>
 }
+
 else
 {
 

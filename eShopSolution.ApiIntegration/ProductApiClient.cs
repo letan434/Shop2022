@@ -92,7 +92,7 @@ namespace eShopSolution.ApiIntegration
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
             var requestContent = new MultipartFormDataContent();
-            if (request.ThumbnailImage.Count > 0)
+            if (request.ThumbnailImage != null && request.ThumbnailImage.Count > 0)
             {
                 request.ThumbnailImage.ForEach(
                     value =>

@@ -17,6 +17,7 @@ namespace eShopSolution.Application.System.Users
 {
     public class UserService : IUserService
     {
+        private const string current_id = "my_own_user_id_claim";
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<AppRole> _roleManager;
@@ -50,7 +51,6 @@ namespace eShopSolution.Application.System.Users
                 new Claim(ClaimTypes.GivenName,user.FirstName),
                 new Claim(ClaimTypes.Role, string.Join(";",roles)),
                 new Claim(ClaimTypes.Name, request.UserName),
-
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

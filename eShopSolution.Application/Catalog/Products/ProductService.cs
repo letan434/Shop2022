@@ -268,7 +268,7 @@ namespace eShopSolution.Application.Catalog.Products
             product.Details = request.Details;
 
             //Save image
-            if (request.ThumbnailImage.Count > 0)
+            if (request.ThumbnailImage != null && request.ThumbnailImage.Count > 0)
             {
                 product.ProductImages = new List<ProductImage>();
                 int idx = 0;
@@ -292,8 +292,6 @@ namespace eShopSolution.Application.Catalog.Products
                             IsDefault = idx == 0 ? true : false,
                         });
                         idx++;
-
-
                     }
                 });
             }
