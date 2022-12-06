@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using eShopSolution.Data.EF;
 using eShopSolution.Data.Entities;
+using eShopSolution.ViewModels.Catalog.Orders;
+using eShopSolution.ViewModels.Common;
 using eShopSolution.ViewModels.Sales;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace eShopSolution.Application.Catalog.orders
 {
@@ -56,6 +60,75 @@ namespace eShopSolution.Application.Catalog.orders
             }
             var result =  await _context.SaveChangesAsync();
             return result == 1;
+        }
+
+        public async Task<ApiResult<PagedResult<OrderVm>>> GetOrdersPaging(PagingRequestBase request)
+        {
+
+            var query =  from o in _context.Orders join u in _context.Users on o.UserId equals u.Id select new { o, u };
+
+
+            //3. Paging
+            int totalRow = await query.CountAsync();
+
+            var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .Select(x => new OrderVm()
+                {
+                    Id = x.o.Id,
+                    ShipAddress = x.o.ShipAddress,
+                    ShipEmail = x.o.ShipEmail,
+                    ShipName= x.o.ShipName,
+                    ShipPhoneNumber = x.o.ShipPhoneNumber,
+                    Status = (int)x.o.Status,
+                    UserName = x.u.UserName
+                }).ToListAsync();
+
+            //4. Select and projection
+            var pagedResult = new PagedResult<OrderVm>()
+            {
+                TotalRecords = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                Items = data
+            };
+            return new ApiSuccessResult<PagedResult<OrderVm>>(pagedResult);
+        }
+
+        public async Task<ApiResult<OrderDetailAdminVm>> GetById(int id)
+        {
+            
+
+            var order = await _context.Orders.FindAsync(id);
+
+            var orderDetails = await (from o in _context.Orders
+                                      join od in _context.OrderDetails on o.Id equals od.OrderId into odd
+                                      from od in odd.DefaultIfEmpty()
+                                      join prd in _context.Products on od.ProductId equals prd.Id into prdd
+                                      from prd in prdd.DefaultIfEmpty()
+                                      where o.Id == id
+
+                                      select new { od, prd }
+                                    ).Select(x=>new OrderDetailVm() {
+                                        Price= x.od.Price,
+                                        ProducName = x.prd.Name,
+                                        ProducDescription = x.prd.Description,
+                                        ProductId = x.prd.Id,
+                                        Quantity = x.od.Quantity
+                                    }).ToListAsync();
+            var orderDetailAdminVm = new OrderDetailAdminVm()
+            {
+                Id = order.Id,
+                OrderDetails = orderDetails,
+                ShipAddress = order.ShipAddress,
+                ShipEmail = order.ShipEmail,
+                ShipName = order.ShipName,
+                ShipPhoneNumber = order.ShipPhoneNumber,
+                Status = (int)order.Status,
+                UserName = order.ShipName
+            };
+            return new ApiSuccessResult<OrderDetailAdminVm>(orderDetailAdminVm);
+
         }
     }
 }

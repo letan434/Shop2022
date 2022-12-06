@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using eShopSolution.Application.Catalog.orders;
+using eShopSolution.ViewModels.Common;
 using eShopSolution.ViewModels.Sales;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -37,6 +38,18 @@ namespace eShopSolution.BackendApi.Controllers
             //var product = await _productService.GetById(productId);
 
             //return CreatedAtAction(nameof(GetById), new { id = productId }, product);
+        }
+        [HttpGet("paging")]
+        public async Task<IActionResult> GetAllPaging([FromQuery] PagingRequestBase request)
+        {
+            var products = await _orderService.GetOrdersPaging(request);
+            return Ok(products);
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var user = await _orderService.GetById(id);
+            return Ok(user);
         }
     }
 }

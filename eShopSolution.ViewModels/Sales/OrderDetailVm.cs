@@ -10,5 +10,7 @@ namespace eShopSolution.ViewModels.Sales
 
         public int Quantity { get; set; }
         public decimal Price { get; set; }
+        public string ProducName { get; set; }
+        public string ProducDescription { get; set; }
     }
 }

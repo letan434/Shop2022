@@ -1,0 +1,119 @@
+﻿@using eShopSolution.ViewModels.Common;
+@model PagedResult<eShopSolution.ViewModels.Catalog.Orders.OrderVm>
+
+@{
+    ViewData["Title"] = "Danh sách đơn hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Danh sách người dùng</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Danh sách đơn hàng</li>
+    </ol>
+    <div class="card mb-12">
+        @*<div class="card-header">
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    <form asp-action="Index" method="get">
+                        <div class="row">
+                            
+                            <div class="cold-md-3">
+                                <button type="submit" class="btn btn-primary">Tìm</button>
+                                <button type="button" onclick="window.location.href='/User/Index'" class="btn btn-dark">Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>*@
+
+        <div class="card-body">
+            <div class="row">
+                @if (ViewBag.SuccessMsg != null)
+                {
+                    <div id="msgAlert" class="alert alert-success" role="alert">
+                        @ViewBag.SuccessMsg
+                    </div>
+                }
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                Tài khoản đăng ký
+                            </th>
+                            <th>
+                                Tên
+                            </th>
+                            <th>
+                                Số điện thoại
+                            </th>
+                            <th>
+                                Địa chỉ
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Trạng thái đơn hàng
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ShipName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ShipPhoneNumber)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ShipAddress)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ShipEmail)
+                                </td>
+                                <td>
+
+                                    @switch (item.Status)
+                                    {
+                                        case 0:
+                                            {<span>Vừa đặt hàng</span>
+                                            }
+                                            break;
+                                        case 1:
+
+                                            {<span>Đang giao</span>
+                                            }
+                                            break;
+                                        case 2:
+                                            {<span>Giao hàng thành công</span>
+                                            }
+                                            break;
+                                        default:
+                                            {<span>Chưa xác định</span>
+                                            };
+                                            break;
+                                    }
+
+                                    @Html.ActionLink("Xem", "Details", new { id = item.Id }) |
+                                    @Html.ActionLink("Xóa", "Delete", new { id = item.Id }) |
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @await Component.InvokeAsync("Pager", Model)
+        </div>
+    </div>
+</div>

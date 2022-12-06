@@ -5,6 +5,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using eShopSolution.Utilities.Constants;
+using eShopSolution.ViewModels.Catalog.Orders;
+using eShopSolution.ViewModels.Common;
 using eShopSolution.ViewModels.Sales;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -41,6 +43,33 @@ namespace eShopSolution.ApiIntegration
             var response = await client.PostAsync($"/api/Orders/checkout/", new StringContent(json, Encoding.UTF8, "application/json"));
             return response.IsSuccessStatusCode;
 
+        }
+
+        public async Task<ApiResult<OrderDetailAdminVm>> GetById(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.GetAsync($"/api/orders/{id}" );
+            var body = await response.Content.ReadAsStringAsync();
+            var orders = JsonConvert.DeserializeObject<ApiSuccessResult<OrderDetailAdminVm>>(body);
+            return orders;
+        }
+
+        public async Task<ApiResult<PagedResult<OrderVm>>> GetOrdersPagings(PagingRequestBase request)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.GetAsync($"/api/orders/paging?pageIndex=" +
+                $"{request.PageIndex}&pageSize={request.PageSize}");
+            var body = await response.Content.ReadAsStringAsync();
+            var orders = JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<OrderVm>>>(body);
+            return orders;
         }
     }
 }
