@@ -19,7 +19,7 @@
             <div class="col-md-12">
                 <dl class="row">
                     <dt class="col-sm-2">
-                       Tên người nhận
+                        Tên người nhận
                     </dt>
                     <dd class="col-sm-10">
                         @Html.DisplayFor(model => model.ShipName)
@@ -46,11 +46,138 @@
                         Trạng thái
                     </dt>
                     <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Status)
+                        @switch (@Model.Status)
+                        {
+                            case 0:
+                                {<span>Vừa đặt hàng</span>
+                                }
+                                break;
+                            case 1:
+
+                                {<span>Đang giao</span>
+                                }
+                                break;
+                            case 2:
+                                {<span>Giao hàng thành công</span>
+                                }
+                                break;
+                            default:
+                                {<span>Chưa xác định</span>
+                                };
+                                break;
+                        }
+                        @*@Html.DisplayFor(model => model.Status)*@
+
                     </dd>
 
                 </dl>
             </div>
         </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                Tên sản phẩm
+                            </th>
+                            <th>
+                                Mô tả
+                            </th>
+                            <th>
+                                Số lượng
+                            </th>
+                            <th>
+                                Giá
+                            </th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.OrderDetails)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProducName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProducDescription)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Quantity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Price)
+                                </td>
+
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-2">
+                    Tổng giá đơn hàng
+                </dt>
+                <dd class="col-sm-10">
+                    @{
+                        var result = 0;
+                        Model.OrderDetails.ForEach(value =>
+                        {
+                            result += value.Quantity * (int)value.Price;
+                        });
+                    }
+                    @result VND
+                </dd>
+            </dl>
+        </div>
+        <div class="card-body">
+            Chuyển trạng thái đơn hàng
+        </div>
+        <div class="card-body">
+            <form asp-action="ChangeStatus">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                @foreach (var status in Model.Statuses)
+                {
+                    <input type="radio" asp-for="Status" value="@status" />
+                    @switch (@status)
+                    {
+                        case 0:
+                            {<span>Vừa đặt hàng</span>
+                            }
+                            break;
+                        case 1:
+                            {<span>Xác nhận đơn hàng</span>
+                            }
+                            break;
+                        case 2:
+                            {<span>Đang giao</span>
+                            }
+                            break;
+                        case 3:
+                            {<span>Giao hàng thành công</span>
+                            }
+                            break;
+                        case 4:
+                            {<span>Giao hàng thất bại</span>
+                            }
+                            break;
+                        default:
+                            {<span>Chưa xác định</span>
+                            };
+                            break;
+                    }<br />
+                }
+                <div class="form-group">
+                    <input type="submit" value="Lưu lại" class="btn btn-primary" />
+                </div>
+            </form>
+         </div>
     </div>
+
 </div>

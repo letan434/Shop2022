@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using eShopSolution.Application.Catalog.orders;
+using eShopSolution.ViewModels.Catalog.Orders;
 using eShopSolution.ViewModels.Common;
 using eShopSolution.ViewModels.Sales;
 using Microsoft.AspNetCore.Authorization;
@@ -50,6 +51,19 @@ namespace eShopSolution.BackendApi.Controllers
         {
             var user = await _orderService.GetById(id);
             return Ok(user);
+        }
+        [HttpPut("{id}/change-status")]
+        public async Task<IActionResult> RoleAssign(int id, [FromBody] OrderDetailAdminVm request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _orderService.ChangeStatus(id, request);
+            if (!result.IsSuccessed)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
     }
 }

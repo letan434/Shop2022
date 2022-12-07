@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using eShopSolution.ApiIntegration;
+using eShopSolution.ViewModels.Catalog.Orders;
 using eShopSolution.ViewModels.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -38,6 +39,25 @@ namespace eShopSolution.AdminApp.Controllers
         {
             var result = await _orderApiClient.GetById(id);
             return View(result.ResultObj);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangeStatus(OrderDetailAdminVm request)
+        {
+            if (!ModelState.IsValid)
+                return View();
+
+            var result = await _orderApiClient.ChangeStatus(request.Id, request);
+
+            if (result.IsSuccessed)
+            {
+                TempData["result"] = "Cập trạng thái thành công";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["result"] = "Cập trạng thái thất bại";
+                return RedirectToAction("Details");
+            }
         }
     }
 }

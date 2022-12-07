@@ -14,6 +14,7 @@ namespace eShopSolution.Application.Catalog.orders
         Task<bool> Checkout(CheckoutRequest checkoutRequest);
         Task<ApiResult<PagedResult<OrderVm>>> GetOrdersPaging(PagingRequestBase request);
         Task<ApiResult<OrderDetailAdminVm>> GetById(int id);
+        Task<ApiResult<bool>> ChangeStatus(int id, OrderDetailAdminVm request);
 
     }
 }

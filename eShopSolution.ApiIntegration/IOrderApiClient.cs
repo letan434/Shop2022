@@ -13,6 +13,7 @@ namespace eShopSolution.ApiIntegration
         Task<bool> CreatOderDetail(CheckoutRequest request);
         Task<ApiResult<PagedResult<OrderVm>>> GetOrdersPagings(PagingRequestBase request);
         Task<ApiResult<OrderDetailAdminVm>> GetById(int id);
+        Task<ApiResult<bool>> ChangeStatus(int id, OrderDetailAdminVm request);
 
     }
 }

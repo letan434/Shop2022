@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using eShopSolution.Data.EF;
 using eShopSolution.Data.Entities;
+using eShopSolution.Data.Enums;
 using eShopSolution.ViewModels.Catalog.Orders;
 using eShopSolution.ViewModels.Common;
 using eShopSolution.ViewModels.Sales;
@@ -128,6 +129,29 @@ namespace eShopSolution.Application.Catalog.orders
                 UserName = order.ShipName
             };
             return new ApiSuccessResult<OrderDetailAdminVm>(orderDetailAdminVm);
+
+        }
+
+        public async Task<ApiResult<bool>> ChangeStatus(int id, OrderDetailAdminVm request)
+        {
+            var order = await _context.Orders.FindAsync(id);
+            if (order == null)
+            {
+                return new ApiErrorResult<bool>("Phiếu mua hàng không tồn tại");
+            }
+            if(request.Status == (int)order.Status)
+            {
+                return new ApiErrorResult<bool>("Bạn chưa thay đổi trạng thái");
+
+            }
+            order.Status =(OrderStatus)request.Status;
+            _context.Orders.Update(order);
+            var result = await _context.SaveChangesAsync();
+            if(result >0)
+            {
+                return new ApiSuccessResult<bool>();
+            }
+            return new ApiSuccessResult<bool>();
 
         }
     }

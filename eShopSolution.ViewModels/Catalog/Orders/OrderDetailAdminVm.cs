@@ -14,6 +14,6 @@ namespace eShopSolution.ViewModels.Catalog.Orders
         public int Status { set; get; }
         public string UserName { get; set; }
         public List<OrderDetailVm> OrderDetails { get; set; }
-
+        public int[] Statuses = new[] { 0, 1, 2, 3, 4 };
     }
 }
