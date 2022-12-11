@@ -42,5 +42,8 @@ namespace eShopSolution.Application.Catalog.Products
         Task<List<ProductVm>> GetFeaturedProducts( int take);
 
         Task<List<ProductVm>> GetLatestProducts( int take);
+
+        Task<List<ProductOfOrder>> GetProductsOldOrder();
+
     }
 }

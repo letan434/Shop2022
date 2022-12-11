@@ -7,6 +7,7 @@ using eShopSolution.ViewModels.Catalog.ProductImages;
 using eShopSolution.ViewModels.Catalog.Products;
 using eShopSolution.ViewModels.Common;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,11 +24,14 @@ namespace eShopSolution.Application.Catalog.Products
         private readonly EShopDbContext _context;
         private readonly IStorageService _storageService;
         private const string USER_CONTENT_FOLDER_NAME = "user-content";
-
-        public ProductService(EShopDbContext context, IStorageService storageService)
+        private IHttpContextAccessor _httpContextAccessor;
+        private readonly UserManager<AppUser> _userManager;
+        public ProductService(EShopDbContext context, IStorageService storageService, IHttpContextAccessor httpContextAccessor, UserManager<AppUser> userManager)
         {
             _context = context;
             _storageService = storageService;
+            _httpContextAccessor = httpContextAccessor;
+            _userManager = userManager;
         }
 
         public async Task<int> AddImage(int productId, ProductImageCreateRequest request)
@@ -487,6 +491,40 @@ namespace eShopSolution.Application.Catalog.Products
             return data;
         }
 
-      
+        public async Task<List<ProductOfOrder>> GetProductsOldOrder()
+        {
+            var user = _httpContextAccessor.HttpContext.User.Identity.Name;
+            var userEntity = await _userManager.FindByNameAsync(user);
+            var userId = userEntity.Id;
+            var query = from p in _context.Products
+                        join od in _context.OrderDetails on p.Id equals od.ProductId into odd
+                        from od in odd.DefaultIfEmpty()
+                        join o in _context.Orders on od.OrderId equals o.Id into oo
+                        from o in oo.DefaultIfEmpty()
+                        
+                        where ( o.UserId == userId)
+                        select new { p, o, od };
+            var data = await query.OrderByDescending(x => x.p.DateCreated)
+                .Select(x => new ProductOfOrder()
+                {
+                    Id = x.p.Id,
+                    Name = x.p.Name,
+                    DateCreated = x.p.DateCreated,
+                    Description = x.p.Description,
+                    Details = x.p.Details,
+                    OriginalPrice = x.p.OriginalPrice,
+                    Price = x.p.Price,
+                    SeoAlias = x.p.SeoAlias,
+                    SeoDescription = x.p.SeoDescription,
+                    SeoTitle = x.p.SeoTitle,
+                    Stock = x.p.Stock,
+                    ViewCount = x.p.ViewCount,
+                    StatusOrder = (int)x.o.Status,
+                    Quantity = x.od.Quantity,
+
+                }).ToListAsync();
+
+            return data;
+        }
     }
 }

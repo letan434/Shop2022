@@ -25,5 +25,6 @@ namespace eShopSolution.ApiIntegration
         Task<List<ProductVm>> GetLatestProducts( int take);
 
         Task<bool> DeleteProduct(int id);
+        Task<List<ProductOfOrder>> getProductOldOrder();
     }
 }

@@ -52,6 +52,13 @@ namespace eShopSolution.BackendApi.Controllers
             return Ok(products);
         }
 
+
+        [HttpGet("product-old")]
+        public async Task<IActionResult> GetProductsOldOrder()
+        {
+            var products = await _productService.GetProductsOldOrder();
+            return Ok(products);
+        }
         [HttpPost]
         [Consumes("multipart/form-data")]
         [Authorize]

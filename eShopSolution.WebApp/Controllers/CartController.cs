@@ -150,5 +150,12 @@ namespace eShopSolution.WebApp.Controllers
             };
             return checkoutVm;
         }
+        public async Task<IActionResult> OrderOld()
+        {
+
+            var listProduct = await _productApiClient.getProductOldOrder();
+
+            return View(listProduct);
+        }
     }
 }

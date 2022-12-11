@@ -177,5 +177,11 @@ namespace eShopSolution.ApiIntegration
         {
             return await Delete($"/api/products/" + id);
         }
+
+        public async Task<List<ProductOfOrder>> getProductOldOrder()
+        {
+            var data = await GetListAsync<ProductOfOrder>($"/api/products/product-old");
+            return data;
+        }
     }
 }
