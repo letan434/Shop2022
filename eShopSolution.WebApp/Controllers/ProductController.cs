@@ -28,6 +28,25 @@ namespace eShopSolution.WebApp.Controllers
                 Product = product
             });
         }
+        [HttpPost]
+        public async Task<IActionResult> start(ProductStartVm request)
+        {
+            
+            
+            //TODO: Add to API
+            var check = await _productApiClient.CreateProductStart(request);
+            if (check)
+            {
+                TempData["SuccessMsg"] = "Gửi đánh giá thành công, chúng tôi sẽ liên hệ sớm cho bạn";
+
+            }
+            else
+            {
+                TempData["ErrorMsg"] = "Gửi phiếu mua hàng thất bại, mong bạn kiểm tra lại thông tin";
+
+            }
+            return View();
+        }
 
         public async Task<IActionResult> Category(int id, string culture, int page = 1)
         {

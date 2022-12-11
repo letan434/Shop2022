@@ -526,5 +526,23 @@ namespace eShopSolution.Application.Catalog.Products
 
             return data;
         }
+
+        public async Task<ApiResult<bool>> CreateProductStart(ProductStartVm request)
+        {
+            var user = _httpContextAccessor.HttpContext.User.Identity.Name;
+            var userEntity = await _userManager.FindByNameAsync(user);
+            var userId = userEntity.Id;
+            var productStart = new ProductStart()
+            {
+                ProductId = request.ProductId,
+                UserId = userId,
+                Comment = request.Comment,
+                Start = request.Start
+            };
+            _context.ProductStarts.Add(productStart);
+
+            await _context.SaveChangesAsync();
+            return new ApiSuccessResult<bool>();
+        }
     }
 }

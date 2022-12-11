@@ -35,26 +35,37 @@
         </div>
 
 
-        <div id="differentview" class="moreOptopm carousel slide">
-            <div class="carousel-inner">
-                <div class="item active">
-                    <a href="themes/images/products/large/f1.jpg"> <img style="width:29%" src="themes/images/products/large/f1.jpg" alt="" /></a>
-                    <a href="themes/images/products/large/f2.jpg"> <img style="width:29%" src="themes/images/products/large/f2.jpg" alt="" /></a>
-                    <a href="themes/images/products/large/f3.jpg"> <img style="width:29%" src="themes/images/products/large/f3.jpg" alt="" /></a>
-                </div>
-                <div class="item">
-                    <a href="themes/images/products/large/f3.jpg"> <img style="width:29%" src="themes/images/products/large/f3.jpg" alt="" /></a>
-                    <a href="themes/images/products/large/f1.jpg"> <img style="width:29%" src="themes/images/products/large/f1.jpg" alt="" /></a>
-                    <a href="themes/images/products/large/f2.jpg"> <img style="width:29%" src="themes/images/products/large/f2.jpg" alt="" /></a>
-                </div>
-            </div>
-            <!--
-            <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
-            <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
-            -->
+        
+        <div>
+            Đánh giá:
+            <span><i class="icon-star"></i></span>
         </div>
+        <div>
+            <form class="form-horizontal" action="/@culture/Product/start" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ProductStart.ProductId" />
+                <div class="control-group row">
+                    <label class="control-label" for="inputCountry">Đánh giá:</label>
+                    <div class="controls">
+                        <input type="number" id="inputCountry" asp-for="ProductStart.Start" value="5" placeholder="Số sao cho sản phẩm">
+                    </div>
+                    <span><i class="icon-star"></i></span>
 
-        <div class="btn-toolbar">
+                </div>
+                <div class="control-group label">
+                    <label class="control-label" for="inputCountry">Bình luận:</label>
+                    <div class="controls">
+                        <input type="text" id="inputCountry" asp-for="ProductStart.Comment" placeholder="Viết bình luận ở đây">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn">Gửi xác nhận</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        @*<div class="btn-toolbar">
             <div class="btn-group">
                 <span class="btn"><i class="icon-envelope"></i></span>
                 <span class="btn"><i class="icon-print"></i></span>
@@ -63,7 +74,7 @@
                 <span class="btn"><i class=" icon-thumbs-up"></i></span>
                 <span class="btn"><i class="icon-thumbs-down"></i></span>
             </div>
-        </div>
+        </div>*@
     </div>
     <div class="col-6">
         <h3 class="name-style">@Model.Product.Name</h3>

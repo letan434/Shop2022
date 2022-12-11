@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eShopSolution.Data.EF;
 
 namespace eShopSolution.Data.Migrations
 {
     [DbContext(typeof(EShopDbContext))]
-    partial class EShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221211150803_productStart")]
+    partial class productStart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -180,7 +182,7 @@ namespace eShopSolution.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "1d9bb962-2e5d-4eeb-9b8f-292417b9c9a0",
+                            ConcurrencyStamp = "79dfe2f1-fe5d-41e9-99f9-dd4e27c87fe5",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -257,7 +259,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1fe3f8ac-41b6-422c-b1a6-16881f6ff21c",
+                            ConcurrencyStamp = "7e129315-95eb-42a2-ad2d-e6b19706e009",
                             Dob = new DateTime(1998, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin14399@gmail.com",
                             EmailConfirmed = true,
@@ -266,7 +268,7 @@ namespace eShopSolution.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "admin14399@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMvb2xzrcWRQ2w9kp5wfbHu5OTNNGs8d7vX7prkR6an/1fhwy0t6NJew+b0ICMEltQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKiUxcpN+BsSCpp5kfFSGDvfCuFQ4puXM5Vc1FkYZyEsztImbHz/g40ii0jjsSmtng==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -588,7 +590,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = 1,
                             BodyType = "Jazzmaster®",
-                            DateCreated = new DateTime(2022, 12, 11, 22, 10, 24, 770, DateTimeKind.Local).AddTicks(3300),
+                            DateCreated = new DateTime(2022, 12, 11, 22, 8, 2, 517, DateTimeKind.Local).AddTicks(3630),
                             Description = "Paranormal Offset Telecaster® là một sự kết hợp tinh tế những tính năng tuyệt vời của guitar Fender, kết hợp các yếu tố của Tele® mang tính biểu tượng với phong cách và sự thoải máu của thân đàn offset Jazzmaster®. Sở hữu cặp pickup single-coil alnico do Fender thiết kế và ngựa đàn string-through-body, chất âm linh hoạt của mẫu guitar này sẽ cất tiếng với sustain. Những đặc điểm khác bao gồm cần đàn kiểu slim “C” với finish gloss cho cảm giác bóng bẩy và hardware bằng chrome để toả sáng dưới ánh đèn sân khấu.",
                             Details = "Squier Paranormal Series Offset Telecaster Electric Guitar, Butterscotch Blonde",
                             FaceMaterial = "Maple",
@@ -618,7 +620,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = 2,
                             BodyType = "Jazzmaster®",
-                            DateCreated = new DateTime(2022, 12, 11, 22, 10, 24, 779, DateTimeKind.Local).AddTicks(8390),
+                            DateCreated = new DateTime(2022, 12, 11, 22, 8, 2, 526, DateTimeKind.Local).AddTicks(5090),
                             Description = "Paranormal Offset Telecaster® là một sự kết hợp tinh tế những tính năng tuyệt vời của guitar Fender, kết hợp các yếu tố của Tele® mang tính biểu tượng với phong cách và sự thoải máu của thân đàn offset Jazzmaster®. Sở hữu cặp pickup single-coil alnico do Fender thiết kế và ngựa đàn string-through-body, chất âm linh hoạt của mẫu guitar này sẽ cất tiếng với sustain. Những đặc điểm khác bao gồm cần đàn kiểu slim “C” với finish gloss cho cảm giác bóng bẩy và hardware bằng chrome để toả sáng dưới ánh đèn sân khấu.",
                             Details = "Squier Paranormal Series Offset Telecaster Electric Guitar, Olympic White",
                             FaceMaterial = "Maple",
@@ -648,7 +650,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = 3,
                             BodyType = "Jazzmaster®",
-                            DateCreated = new DateTime(2022, 12, 11, 22, 10, 24, 779, DateTimeKind.Local).AddTicks(8610),
+                            DateCreated = new DateTime(2022, 12, 11, 22, 8, 2, 526, DateTimeKind.Local).AddTicks(5300),
                             Description = "Latin Percussion LP1433 Angled Cajon có mặt đánh góc cạnh thiết kế công thái học giúp dễ thao tác hơn. Mặt trước góc cạnh đặt bề mặt chơi gần tay của bạn ở vị trí tự nhiên hơn khi chạm xuống bảng âm. Mang cấu trúc hoàn toàn bằng gỗ và 3 dây snare bên trong tăng độ nhạy và sự biểu đạt, có mặt ghế ngồi kết cấu chống trượt.",
                             Details = "Latin Percussion LP1433 Angled Surface Cajon",
                             FaceMaterial = "Maple",
@@ -743,9 +745,10 @@ namespace eShopSolution.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<Guid?>("AppUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
@@ -761,9 +764,9 @@ namespace eShopSolution.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("AppUserId");
 
-                    b.ToTable("ProductStarts");
+                    b.ToTable("ProductStart");
                 });
 
             modelBuilder.Entity("eShopSolution.Data.Entities.Promotion", b =>
@@ -1020,9 +1023,7 @@ namespace eShopSolution.Data.Migrations
                 {
                     b.HasOne("eShopSolution.Data.Entities.AppUser", "AppUser")
                         .WithMany("ProductStarts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppUserId");
                 });
 
             modelBuilder.Entity("eShopSolution.Data.Entities.Transaction", b =>

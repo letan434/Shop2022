@@ -26,5 +26,6 @@ namespace eShopSolution.ApiIntegration
 
         Task<bool> DeleteProduct(int id);
         Task<List<ProductOfOrder>> getProductOldOrder();
+        Task<bool> CreateProductStart(ProductStartVm request);
     }
 }

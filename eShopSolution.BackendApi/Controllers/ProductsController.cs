@@ -184,5 +184,21 @@ namespace eShopSolution.BackendApi.Controllers
             }
             return Ok(result);
         }
+        [HttpPost("product-start")]
+        public async Task<IActionResult> CreateProductStart(ProductStartVm request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var check = await _productService.CreateProductStart(request);
+            return Ok(check);
+            //if (productId == 0)
+            //    return BadRequest();
+
+            //var product = await _productService.GetById(productId);
+
+            //return CreatedAtAction(nameof(GetById), new { id = productId }, product);
+        }
     }
 }

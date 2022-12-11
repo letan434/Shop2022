@@ -183,5 +183,21 @@ namespace eShopSolution.ApiIntegration
             var data = await GetListAsync<ProductOfOrder>($"/api/products/product-old");
             return data;
         }
+
+        public async Task<bool> CreateProductStart(ProductStartVm request)
+        {
+            var sessions = _httpContextAccessor
+                .HttpContext
+                .Session
+                .GetString(SystemConstants.AppSettings.Token);
+
+
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration[SystemConstants.AppSettings.BaseAddress]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var json = JsonConvert.SerializeObject(request);
+            var response = await client.PostAsync($"/api/products/product-start", new StringContent(json, Encoding.UTF8, "application/json"));
+            return response.IsSuccessStatusCode;
+        }
     }
 }
