@@ -595,7 +595,8 @@ namespace eShopSolution.Application.Catalog.Products
             var userEntity = await _userManager.FindByNameAsync(user);
 
             var userId = userEntity.Id;
-            string newFileName = "C:\\Users\\Tan\\Documents\\Projects2022\\Shop2022-code-3110\\Shop2022-code-3110\\eShopSolution.Application\\Data\\recommendation-ratings.csv";
+
+            string newFileName = "/Users/lexuantan/Downloads/Shop2022-master/eShopSolution.Application/Catalog/Products/Data/recommendation-ratings.csv";
             DataTable table = new DataTable();
             table.Columns.Add("UserId", typeof(string));
             table.Columns.Add("ProductId", typeof(int));
@@ -609,7 +610,7 @@ namespace eShopSolution.Application.Catalog.Products
             ToCSV(table, newFileName);
 
             var listRecommid = new List<ProductScore>();
-            var  listProduct = await _context.Products.Take(100).ToListAsync();
+            var  listProduct = await _context.Products.Take(20).ToListAsync();
             listProduct.ForEach(value =>
             {
                 var newSample = new ProductRating
@@ -659,7 +660,7 @@ namespace eShopSolution.Application.Catalog.Products
         public float getFloatMax(ProductRating prd) {
             var trainers = new List<ITrainerBase>
             {
-                new MatrixFactorizationTrainer(10, 5, 0.1),
+                new MatrixFactorizationTrainer(10, 50, 0.1),
                 new MatrixFactorizationTrainer(10, 50, 0.01),
                 new MatrixFactorizationTrainer(20, 100, 0.1),
 
@@ -709,10 +710,10 @@ namespace eShopSolution.Application.Catalog.Products
         }
         public float TrainEvaluatePredict(ITrainerBase trainer, ProductRating newSample)
         {
-            
-            trainer.Fit("C:\\Users\\Tan\\Documents\\Projects2022\\Shop2022-code-3110\\Shop2022-code-3110\\eShopSolution.Application\\Data\\recommendation-ratings.csv");
+            //trainer.Fit("C:\\Users\\Tan\\Documents\\Projects2022\\Shop2022-code-3110\\Shop2022-code-3110\\eShopSolution.Application\\Data\\recommendation-ratings.csv");
+            trainer.Fit("/Users/lexuantan/Downloads/Shop2022-master/eShopSolution.Application/Catalog/Products/Data/recommendation-ratings.csv");
 
-            var modelMetrics = trainer.Evaluate();
+            //var modelMetrics = trainer.Evaluate();
 
            
 

@@ -23,9 +23,11 @@
 
   <ItemGroup>
     <None Remove="Catalog\orders\" />
+    <None Remove="Catalog\Products\Data\" />
+    <None Remove="Data\recommendation-ratings.csv" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Catalog\orders\" />
-    <Folder Include="Data\" />
+    <Folder Include="Catalog\Products\Data\" />
   </ItemGroup>
 </Project>
