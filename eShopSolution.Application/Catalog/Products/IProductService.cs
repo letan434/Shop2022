@@ -44,6 +44,11 @@ namespace eShopSolution.Application.Catalog.Products
         Task<List<ProductVm>> GetLatestProducts( int take);
 
         Task<List<ProductOfOrder>> GetProductsOldOrder();
-        Task<ApiResult<bool>> CreateProductStart(ProductStartVm request);
+        Task<ApiResult<bool>> CreateProductStart(ProductStartCreateRequest request);
+
+        Task<List<ProductStartVm>> getProductStartByProductId(int productId);
+
+        Task<List<ProductVm>> GetRecommendationProducts(int take);
+
     }
 }

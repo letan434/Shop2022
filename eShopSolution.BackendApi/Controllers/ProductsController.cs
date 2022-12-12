@@ -185,7 +185,7 @@ namespace eShopSolution.BackendApi.Controllers
             return Ok(result);
         }
         [HttpPost("product-start")]
-        public async Task<IActionResult> CreateProductStart(ProductStartVm request)
+        public async Task<IActionResult> CreateProductStart(ProductStartCreateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -199,6 +199,21 @@ namespace eShopSolution.BackendApi.Controllers
             //var product = await _productService.GetById(productId);
 
             //return CreatedAtAction(nameof(GetById), new { id = productId }, product);
+        }
+        [HttpGet("product-start-by-id/{productId}")]
+        public async Task<IActionResult> getProductStartByProductId(int productId)
+        {
+            var product = await _productService.getProductStartByProductId(productId);
+            if (product == null)
+                return BadRequest("Cannot find start of product");
+            return Ok(product);
+        }
+        [HttpGet("recommendation-product/{take}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetRecommendationProducts(int take)
+        {
+            var products = await _productService.GetRecommendationProducts(take);
+            return Ok(products);
         }
     }
 }

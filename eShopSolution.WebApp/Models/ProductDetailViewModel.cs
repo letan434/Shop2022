@@ -18,7 +18,9 @@ namespace eShopSolution.WebApp.Models
 
         public List<ProductImageViewModel> ProductImages { get; set; }
 
-        public ProductStartVm ProductStart { get; set; }
+        public ProductStartCreateRequest ProductStart { get; set; }
+        public List<ProductStartVm> ProductStarts { get; set; }
+
 
     }
 }

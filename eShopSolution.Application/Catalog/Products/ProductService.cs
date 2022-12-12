@@ -1,4 +1,8 @@
 ﻿using eShopSolution.Application.Common;
+using eShopSolution.Application.MachineLearning.Common;
+using eShopSolution.Application.MachineLearning.DataModels;
+using eShopSolution.Application.MachineLearning.Predictors;
+using eShopSolution.Application.MachineLearning.Trainers;
 using eShopSolution.Data.EF;
 using eShopSolution.Data.Entities;
 using eShopSolution.Utilities.Constants;
@@ -11,6 +15,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -527,11 +532,21 @@ namespace eShopSolution.Application.Catalog.Products
             return data;
         }
 
-        public async Task<ApiResult<bool>> CreateProductStart(ProductStartVm request)
+        public async Task<ApiResult<bool>> CreateProductStart(ProductStartCreateRequest request)
         {
             var user = _httpContextAccessor.HttpContext.User.Identity.Name;
+            if (user == null)
+            {
+                return new ApiErrorResult<bool>("Bạn cần kiểm tra lại thông tin đăng nhập!");
+            }
             var userEntity = await _userManager.FindByNameAsync(user);
+            
             var userId = userEntity.Id;
+            var productStartCur = await _context.ProductStarts.FirstOrDefaultAsync(x => x.UserId == userId && x.ProductId == request.ProductId);
+            if (productStartCur != null)
+            {
+                return new ApiErrorResult<bool>("Sản phẩm đã được bạn đánh giá");
+            }
             var productStart = new ProductStart()
             {
                 ProductId = request.ProductId,
@@ -541,8 +556,171 @@ namespace eShopSolution.Application.Catalog.Products
             };
             _context.ProductStarts.Add(productStart);
 
-            await _context.SaveChangesAsync();
+            var ressult =  await _context.SaveChangesAsync();
+            
             return new ApiSuccessResult<bool>();
+
+            
+        }
+
+        public async Task<List<ProductStartVm>> getProductStartByProductId(int productId)
+        {
+
+            var query = from ps in _context.ProductStarts
+                        join u in _context.Users on ps.UserId equals u.Id into ud
+                        from u in ud.DefaultIfEmpty()
+                        where (ps.ProductId == productId)
+                        select new { ps, u };
+            var data = await query.OrderByDescending(x => x.ps.Start)
+                .Select(x => new ProductStartVm()
+                {
+                    Id = x.ps.Id,
+                    UserName = x.u.UserName,
+                    Comment = x.ps.Comment,
+                    Start = x.ps.Start,
+                    ProductId = x.ps.ProductId
+
+                }).ToListAsync();
+
+            return data;
+        }
+
+        public async Task<List<ProductVm>> GetRecommendationProducts(int take)
+        {
+            var user = _httpContextAccessor.HttpContext.User.Identity.Name;
+            //if (user == null)
+            //{
+            //    return new
+            //}
+            var userEntity = await _userManager.FindByNameAsync(user);
+
+            var userId = userEntity.Id;
+            string newFileName = "C:\\Users\\Tan\\Documents\\Projects2022\\Shop2022-code-3110\\Shop2022-code-3110\\eShopSolution.Application\\Data\\recommendation-ratings.csv";
+            DataTable table = new DataTable();
+            table.Columns.Add("UserId", typeof(string));
+            table.Columns.Add("ProductId", typeof(int));
+            table.Columns.Add("Label", typeof(float));
+            var query1 = await _context.ProductStarts.ToListAsync();
+            query1.ForEach(
+                value =>
+                {
+                    table.Rows.Add(value.UserId, value.ProductId, (float)value.Start);
+                });
+            ToCSV(table, newFileName);
+
+            var listRecommid = new List<ProductScore>();
+            var  listProduct = await _context.Products.Take(100).ToListAsync();
+            listProduct.ForEach(value =>
+            {
+                var newSample = new ProductRating
+                {
+                    UserId = userEntity.Id.ToString(),
+                    ProductId = value.Id,
+                };
+                var result = getFloatMax(newSample);
+                listRecommid.Add(new ProductScore()
+                {
+                    ProductId= value.Id,
+                    Score = result,
+                });
+
+            });
+            listRecommid.Sort((x, y) => y.Score.CompareTo(x.Score));
+
+            var data = new List<ProductVm>();
+            if (listRecommid.Count > 0)
+            {
+                listRecommid.ForEach(
+                    value =>
+                    {
+                        var product = listProduct.Find(x => x.Id == value.ProductId);
+                        data.Add(
+                            new ProductVm()
+                            {
+                                Id = product.Id,
+                                Name = product.Name,
+                                DateCreated = product.DateCreated,
+                                Description = product.Description,
+                                Details = product.Details,
+                                OriginalPrice = product.OriginalPrice,
+                                Price = product.Price,
+                                SeoAlias = product.SeoAlias,
+                                SeoDescription = product.SeoDescription,
+                                SeoTitle = product.SeoTitle,
+                                Stock = product.Stock,
+                                ViewCount = product.ViewCount,
+                                ThumbnailImage = new List<string>()
+
+                            });
+                    });
+            }            
+            return data;
+        }
+        public float getFloatMax(ProductRating prd) {
+            var trainers = new List<ITrainerBase>
+            {
+                new MatrixFactorizationTrainer(10, 5, 0.1),
+                new MatrixFactorizationTrainer(10, 50, 0.01),
+                new MatrixFactorizationTrainer(20, 100, 0.1),
+
+            };
+            var arrFloar = new List<float>();
+            trainers.ForEach(t => arrFloar.Add(TrainEvaluatePredict(t, prd)));
+            return arrFloar.Max();
+        }
+        public void ToCSV(DataTable dtDataTable, string strFilePath)
+        {
+            StreamWriter sw = new StreamWriter(strFilePath, false);
+            //headers    
+            for (int i = 0; i < dtDataTable.Columns.Count; i++)
+            {
+                sw.Write(dtDataTable.Columns[i]);
+                if (i < dtDataTable.Columns.Count - 1)
+                {
+                    sw.Write(",");
+                }
+            }
+            sw.Write(sw.NewLine);
+            foreach (DataRow dr in dtDataTable.Rows)
+            {
+                for (int i = 0; i < dtDataTable.Columns.Count; i++)
+                {
+                    if (!Convert.IsDBNull(dr[i]))
+                    {
+                        string value = dr[i].ToString();
+                        if (value.Contains(','))
+                        {
+                            value = String.Format("\"{0}\"", value);
+                            sw.Write(value);
+                        }
+                        else
+                        {
+                            sw.Write(dr[i].ToString());
+                        }
+                    }
+                    if (i < dtDataTable.Columns.Count - 1)
+                    {
+                        sw.Write(",");
+                    }
+                }
+                sw.Write(sw.NewLine);
+            }
+            sw.Close();
+        }
+        public float TrainEvaluatePredict(ITrainerBase trainer, ProductRating newSample)
+        {
+            
+            trainer.Fit("C:\\Users\\Tan\\Documents\\Projects2022\\Shop2022-code-3110\\Shop2022-code-3110\\eShopSolution.Application\\Data\\recommendation-ratings.csv");
+
+            var modelMetrics = trainer.Evaluate();
+
+           
+
+            trainer.Save();
+
+            var predictor = new Predictor();
+            var prediction = predictor.Predict(newSample);
+            return prediction.Score;
         }
     }
 }

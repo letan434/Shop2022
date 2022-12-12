@@ -10,6 +10,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.6.0" />
+    <PackageReference Include="Microsoft.ML" Version="1.5.4" />
+    <PackageReference Include="Microsoft.ML.Recommender" Version="0.17.4" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
   </ItemGroup>
 
@@ -24,5 +26,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Catalog\orders\" />
+    <Folder Include="Data\" />
   </ItemGroup>
 </Project>

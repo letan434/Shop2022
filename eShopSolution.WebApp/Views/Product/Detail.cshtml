@@ -9,6 +9,13 @@
 @section styles {
     <link href="~/assets/pages/product/css/detail.css" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
 }
+@section Scripts{
+    <script>
+        setTimeout(function () {
+            $('.alert').fadeOut('slow');
+        }, 1000);
+    </script>
+}
 <ul class="breadcrumb">
     <li><a href="/"><localize>Home</localize></a> <span class="divider">/&nbsp;</span></li>
     <li class="active">@Model.Product.Name</li>
@@ -35,46 +42,44 @@
         </div>
 
 
-        
+
         <div>
             Đánh giá:
             <span><i class="icon-star"></i></span>
         </div>
+        <hr class="soft" />
+        @if (TempData["ErrorMsg"] != null)
+        {
+            <span class="alert alert-danger">@TempData["ErrorMsg"]</span>
+        }
+        @if (TempData["SuccessMsg"] != null)
+        {
+            <span class="alert alert-success">@TempData["SuccessMsg"]</span>
+        }
         <div>
-            <form class="form-horizontal" action="/@culture/Product/start" method="post">
+            <form class="form-horizontal" action="/@culture/Product/Detail" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="ProductStart.ProductId" />
-                <div class="control-group row">
-                    <label class="control-label" for="inputCountry">Đánh giá:</label>
-                    <div class="controls">
-                        <input type="number" id="inputCountry" asp-for="ProductStart.Start" value="5" placeholder="Số sao cho sản phẩm">
+                <input type="hidden" asp-for="ProductStart.ProductId" value="@Model.Product.Id" />
+                <div class="row g-3">
+                   
+                    <div class="col-md-6">
+                        <label for="inputComment" class="form-label">Đánh giá</label>
+                        <input type="text"  class="form-control" id="inputComment" asp-for="ProductStart.Comment" placeholder="Viết đánh giá ở đây">
                     </div>
-                    <span><i class="icon-star"></i></span>
+                    <div class="col-md-3">
+                        <label for="inputStart" class="form-label">Số sao</label>
+                        <input type="number" class="form-control" id="inputStart" value="5" asp-for="ProductStart.Start" placeholder="Số sao cho sản phẩm">
 
-                </div>
-                <div class="control-group label">
-                    <label class="control-label" for="inputCountry">Bình luận:</label>
-                    <div class="controls">
-                        <input type="text" id="inputCountry" asp-for="ProductStart.Comment" placeholder="Viết bình luận ở đây">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="inputStart" class="form-label">Xác nhận</label>
+                        <button type="submit" class="btn btn-large btn-primary">Gửi</button>
+
                     </div>
                 </div>
-                <div class="control-group">
-                    <div class="controls">
-                        <button type="submit" class="btn">Gửi xác nhận</button>
-                    </div>
-                </div>
+               
             </form>
-        </div>
-        @*<div class="btn-toolbar">
-            <div class="btn-group">
-                <span class="btn"><i class="icon-envelope"></i></span>
-                <span class="btn"><i class="icon-print"></i></span>
-                <span class="btn"><i class="icon-zoom-in"></i></span>
-                <span class="btn"><i class="icon-star"></i></span>
-                <span class="btn"><i class=" icon-thumbs-up"></i></span>
-                <span class="btn"><i class="icon-thumbs-down"></i></span>
-            </div>
-        </div>*@
+        </div>        
     </div>
     <div class="col-6">
         <h3 class="name-style">@Model.Product.Name</h3>
@@ -89,10 +94,10 @@
 
                 </div>
                 <div class="col-2">
-                    <input type="number" id="value_quantity" class="form-control"  value="1" />
+                    <input type="number" id="value_quantity" class="form-control" value="1" />
                 </div>
                 <div class="col-7">
-                    <button type="submit" class=" btn btn-large btn-primary pull-right btn-add-cart "  data-id="@Model.Product.Id" > <localize>Add to</localize> <i class=" icon-shopping-cart"></i></button>
+                    <button type="submit" class=" btn btn-large btn-primary pull-right btn-add-cart " data-id="@Model.Product.Id"> <localize>Add to</localize> <i class=" icon-shopping-cart"></i></button>
 
                 </div>
             </div>
@@ -101,18 +106,18 @@
         <hr class="soft" />
         <h4>@Model.Product.Stock sản còn trong kho</h4>
         @*<form class="form-horizontal qtyFrm pull-right">
-            <div class="control-group">
-                <label class="control-label"><span>Color</span></label>
-                <div class="controls">
-                    <select class="span2">
-                        <option>Black</option>
-                        <option>Red</option>
-                        <option>Blue</option>
-                        <option>Brown</option>
-                    </select>
+                <div class="control-group">
+                    <label class="control-label"><span>Color</span></label>
+                    <div class="controls">
+                        <select class="span2">
+                            <option>Black</option>
+                            <option>Red</option>
+                            <option>Blue</option>
+                            <option>Brown</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-        </form>*@
+            </form>*@
         <hr class="soft clr" />
         <p>
             @Html.Raw(Model.Product.Details)
@@ -122,76 +127,78 @@
         <a href="#" name="detail"></a>
         <hr class="soft" />
     </div>
+    
+</div>
+<div class=" mt-5 mb-5">
 
-    <div class="col-9">
-        <ul id="productDetail" class="nav nav-tabs">
-            <li class="active"><a href="#home" data-toggle="tab"><localize>Product Details</localize></a></li>
-            <li><a href="#profile" data-toggle="tab"><localize>Related Products</localize></a></li>
-        </ul>
-        <div id="myTabContent" class="tab-content">
-            <div class="tab-pane fade active in" id="home">
-                <h4>Product Information</h4>
-                @Html.Raw(Model.Product.Details)
-            </div>
-            <div class="tab-pane fade" id="profile">
-                <div id="myTab" class="pull-right">
-                    <a href="#listView" data-toggle="tab"><span class="btn btn-large"><i class="icon-list"></i></span></a>
-                    <a href="#blockView" data-toggle="tab"><span class="btn btn-large btn-primary"><i class="icon-th-large"></i></span></a>
-                </div>
-                <br class="clr" />
-                <hr class="soft" />
-                <div class="tab-content">
-                    <div class="tab-pane" id="listView">
-                        <div class="row">
-                            <div class="span2">
-                                <img src="themes/images/products/4.jpg" alt="" />
-                            </div>
-                            <div class="span4">
-                                <h3>New | Available</h3>
-                                <hr class="soft" />
-                                <h5>Product Name </h5>
-                                <p>
-                                    Nowadays the lingerie industry is one of the most successful business spheres.We always stay in touch with the latest fashion tendencies -
-                                    that is why our goods are so popular..
-                                </p>
-                                <a class="btn btn-small pull-right" href="product_details.html">View Details</a>
-                                <br class="clr" />
-                            </div>
-                            <div class="span3 alignR">
-                                <form class="form-horizontal qtyFrm">
-                                    <h3> $222.00</h3>
-                                    <label class="checkbox">
-                                        <input type="checkbox">  Adds product to compair
-                                    </label><br />
-                                    <div class="btn-group">
-                                        <a href="product_details.html" class="btn btn-large btn-primary"> Add to <i class=" icon-shopping-cart"></i></a>
-                                        <a href="product_details.html" class="btn btn-large"><i class="icon-zoom-in"></i></a>
-                                    </div>
-                                </form>
-                            </div>
+    <div class="row  d-flex justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="headings d-flex justify-content-between align-items-center mb-3">
+                @if (Model.ProductStarts.Count > 0) {
+                    <h5>Tất cả đánh giá (@Model.ProductStarts.Count)</h5>
+
+                @*<div class="buttons">
+
+                    <span class="badge bg-white d-flex flex-row align-items-center">
+                        <span class="text-primary">Comments "ON"</span>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+
                         </div>
-                        <hr class="soft" />
-                    </div>
-                    <div class="tab-pane active" id="blockView">
-                        <ul class="thumbnails">
-                            <li class="span3">
-                                <div class="thumbnail">
-                                    <a href="product_details.html"><img src="themes/images/products/10.jpg" alt="" /></a>
-                                    <div class="caption">
-                                        <h5>Manicure &amp; Pedicure</h5>
-                                        <p>
-                                            Lorem Ipsum is simply dummy text.
-                                        </p>
-                                        <h4 style="text-align:center"><a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">&euro;222.00</a></h4>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                        <hr class="soft" />
-                    </div>
-                </div>
-                <br class="clr">
+                    </span>
+
+                </div>*@
+                }
             </div>
+
+            @if (Model.ProductStarts.Count > 0)
+            {
+                @foreach (var item in Model.ProductStarts)
+                {
+                    <div class="card p-3 mb-3">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div class="user d-flex flex-row align-items-center">
+
+                                <span><small class="font-weight-bold text-primary">@item.UserName: </small> <small class="font-weight-bold">@item.Comment</small></span>
+
+                            </div>
+
+
+                            <small>
+                                @item.Start <span><i class="icon-star"></i></span></small>
+
+                        </div>
+
+
+                        @*<div class="action d-flex justify-content-between mt-2 align-items-center">
+
+                            <div class="reply px-4">
+                                text
+
+                            </div>
+
+
+
+                        </div>*@
+
+
+
+                    </div>
+                }
+            }
+
+
+
+
+
+
+
         </div>
+
     </div>
+
 </div>

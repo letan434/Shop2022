@@ -34,13 +34,19 @@ namespace eShopSolution.WebApp.Controllers
         public async Task<IActionResult> Index()
         {
             var culture = CultureInfo.CurrentCulture.Name;
-            var viewModel = new HomeViewModel
+            var viewModel = new HomeViewModel();
+            if (User.Identity.IsAuthenticated)
             {
-                Slides = await _slideApiClient.GetAll(),
-                FeaturedProducts = await _productApiClient.GetFeaturedProducts( SystemConstants.ProductSettings.NumberOfFeaturedProducts),
-                //LatestProducts = await _productApiClient.GetLatestProducts( SystemConstants.ProductSettings.NumberOfLatestProducts),
-            };
-
+                viewModel.Slides = await _slideApiClient.GetAll();
+                viewModel.FeaturedProducts = await _productApiClient.GetFeaturedProducts(SystemConstants.ProductSettings.NumberOfFeaturedProducts);
+                    viewModel.LatestProducts = await _productApiClient.GetRecommendationProducts(SystemConstants.ProductSettings.NumberOfLatestProducts);
+                
+            }
+            else
+            {
+                viewModel.Slides = await _slideApiClient.GetAll();
+                viewModel.FeaturedProducts = await _productApiClient.GetFeaturedProducts(SystemConstants.ProductSettings.NumberOfFeaturedProducts);
+            } 
             return View(viewModel);
         }
 

@@ -184,7 +184,7 @@ namespace eShopSolution.ApiIntegration
             return data;
         }
 
-        public async Task<bool> CreateProductStart(ProductStartVm request)
+        public async Task<ApiResult<bool>> CreateProductStart(ProductStartCreateRequest request)
         {
             var sessions = _httpContextAccessor
                 .HttpContext
@@ -197,7 +197,23 @@ namespace eShopSolution.ApiIntegration
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
             var json = JsonConvert.SerializeObject(request);
             var response = await client.PostAsync($"/api/products/product-start", new StringContent(json, Encoding.UTF8, "application/json"));
-            return response.IsSuccessStatusCode;
+            var result = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);
+
+            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(result);
+        }
+
+        public async Task<List<ProductStartVm>> getProductStartByProductId(int productId)
+        {
+            var data = await GetListAsync<ProductStartVm>($"/api/products/product-start-by-id/{productId}");
+            return data;
+        }
+
+        public  async Task<List<ProductVm>> GetRecommendationProducts(int take)
+        {
+            var data = await GetListAsync<ProductVm>($"/api/products/recommendation-product/{take}");
+            return data;
         }
     }
 }

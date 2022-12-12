@@ -23,29 +23,46 @@ namespace eShopSolution.WebApp.Controllers
         public async Task<IActionResult> Detail(int id, string culture)
         {
             var product = await _productApiClient.GetById(id);
+            var productStarts = await _productApiClient.getProductStartByProductId(id);
+
             return View(new ProductDetailViewModel()
             {
-                Product = product
+                Product = product,
+                ProductStarts = productStarts
             });
         }
         [HttpPost]
-        public async Task<IActionResult> start(ProductStartVm request)
+        public async Task<IActionResult> Detail(ProductDetailViewModel request)
         {
             
             
             //TODO: Add to API
-            var check = await _productApiClient.CreateProductStart(request);
-            if (check)
+            var check = await _productApiClient.CreateProductStart(request.ProductStart);
+            if (check.IsSuccessed)
             {
-                TempData["SuccessMsg"] = "Gửi đánh giá thành công, chúng tôi sẽ liên hệ sớm cho bạn";
+                TempData["SuccessMsg"] = "Gửi đánh giá thành công, cảm ơn bạn!";
 
             }
             else
             {
-                TempData["ErrorMsg"] = "Gửi phiếu mua hàng thất bại, mong bạn kiểm tra lại thông tin";
+                if(check.Message != "")
+                {
+                    TempData["ErrorMsg"] = check.Message;
+
+                }
+                else
+                {
+                    TempData["ErrorMsg"] = "Gửi đánh giá thất bại, bạn kiểm tra lại thông tin!";
+
+                }
 
             }
-            return View();
+            var product = await _productApiClient.GetById(request.ProductStart.ProductId);
+            var productStarts = await _productApiClient.getProductStartByProductId(request.ProductStart.ProductId);
+
+            request.Product = product;
+            request.ProductStarts = productStarts;
+            return View(request);
         }
 
         public async Task<IActionResult> Category(int id, string culture, int page = 1)
