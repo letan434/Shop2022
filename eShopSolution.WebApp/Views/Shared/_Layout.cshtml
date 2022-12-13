@@ -86,20 +86,32 @@
                 </div>
 
 
-                <button id="smallScreen" class="navbar-toggler btn-trial" data-bs-toggle="modal" data-bs-target="#exampleModal" type="button" aria-expanded="false"
+                <div id="smallScreen" class="navbar-toggler" data-bs-toggle="modal" data-bs-target="#exampleModal" type="button" aria-expanded="false"
                         aria-label="Toggle navigation">
-                    hello
-                </button>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form action="/@culture/Account/Logout" method="post">
+                            <button type="submit" style="padding:0px">
+                                <span class="btn btn-large btn-success"><localize>Đăng xuất</localize></span>
+                            </button>
+                        </form> }
+                    else
+                    {
+                        <a href="/@culture/Account/Login" style="padding-right:0">
+                            <span class="btn btn-large btn-success"><localize>Đăng nhập</localize></span>
+                        </a>}
+                </div>
+                
                 <div class="collapse navbar-collapse justify-content-end col">
-                    <form class="row g-3" method="get"  action="@Url.Action("GetAll", "Product")"  >
+                    <form class="row g-3" method="get" action="@Url.Action("GetAll", "Product")">
 
                         <div class="col-auto">
                             <input name="keyword" id="srchFld" class="form-control" type="text" placeholder="Bạn tìm gì ..." />
                         </div>
                         <div class="col-auto">
                             @*<select name="categoryId" asp-items="@ViewBag.Categories" class="form-control">
-                                <option>--Tất cả--</option>
-                            </select>*@
+                        <option>--Tất cả--</option>
+                    </select>*@
                             <select name="categoryId" class="form-select">
                                 <option selected value="">Tất cả</option>
                                 <option value="1">Guitar & Bass</option>
@@ -109,14 +121,14 @@
                             </select>
                         </div>
                         <div class="col-auto">
-                          
+
                             <button type="submit" id="submitButton" class="btn btn-primary">Tìm kiếm</button>
                         </div>
                     </form>
                     <ul id="topMenu" class="ms-2 nav text-end row">
                         @*<li class="col-auto"><a asp-route-culture="@culture" localize-content>Specials Offer</a></li>
-                        <li class="col-auto"><a asp-route-culture="@culture" localize-content>Delivery</a></li>
-                        <li class="col-auto"><a asp-route-culture="@culture" localize-content>Contact</a></li>*@
+                <li class="col-auto"><a asp-route-culture="@culture" localize-content>Delivery</a></li>
+                <li class="col-auto"><a asp-route-culture="@culture" localize-content>Contact</a></li>*@
                         <li class="col-auto">
                             @if (User.Identity.IsAuthenticated)
                             {
@@ -145,7 +157,7 @@
                 <!-- Sidebar ================================================== -->
                 @await Component.InvokeAsync("SideBar")
                 <!-- Sidebar end=============================================== -->
-                <div class="span9">
+                <div class="col-12">
                     @RenderBody()
                 </div>
             </div>
@@ -183,7 +195,7 @@
                                 Số điện thoại
                             </div>
                             <div class="text-extra">
-                                <a style=" color: white;" href="tel:0359199777">0359199777</a>
+                                <a style=" color: white;" href="tel:0359199777">0253447444</a>
                             </div>
                         </div>
                     </div>

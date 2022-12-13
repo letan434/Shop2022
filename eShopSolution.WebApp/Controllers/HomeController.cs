@@ -39,7 +39,7 @@ namespace eShopSolution.WebApp.Controllers
             {
                 viewModel.Slides = await _slideApiClient.GetAll();
                 viewModel.FeaturedProducts = await _productApiClient.GetFeaturedProducts(SystemConstants.ProductSettings.NumberOfFeaturedProducts);
-                    viewModel.LatestProducts = await _productApiClient.GetRecommendationProducts(SystemConstants.ProductSettings.NumberOfLatestProducts);
+                viewModel.LatestProducts = await _productApiClient.GetRecommendationProducts(SystemConstants.ProductSettings.NumberOfLatestProducts);
                 
             }
             else

@@ -554,8 +554,20 @@ namespace eShopSolution.Application.Catalog.Products
                 Comment = request.Comment,
                 Start = request.Start
             };
+            var query1 = await _context.ProductStarts.ToListAsync();
             _context.ProductStarts.Add(productStart);
-
+            string newFileName = "C:\\Users\\Tan\\Documents\\Projects2022\\Shop2022-code-3110\\Shop2022-code-3110\\eShopSolution.Application\\Data\\recommendation-ratings.csv";
+            DataTable table = new DataTable();
+            table.Columns.Add("UserId", typeof(string));
+            table.Columns.Add("ProductId", typeof(int));
+            table.Columns.Add("Label", typeof(float));
+            query1.Add(productStart);
+            query1.ForEach(
+                value =>
+                {
+                    table.Rows.Add(value.UserId, value.ProductId, (float)value.Start);
+                });
+            ToCSV(table, newFileName);
             var ressult =  await _context.SaveChangesAsync();
             
             return new ApiSuccessResult<bool>();
@@ -588,69 +600,77 @@ namespace eShopSolution.Application.Catalog.Products
         public async Task<List<ProductVm>> GetRecommendationProducts(int take)
         {
             var user = _httpContextAccessor.HttpContext.User.Identity.Name;
-            //if (user == null)
-            //{
-            //    return new
-            //}
-            var userEntity = await _userManager.FindByNameAsync(user);
+            var data = new List<ProductVm>();
 
+            if (user == null)
+            {
+                return data;
+            }
+            var userEntity = await _userManager.FindByNameAsync(user);
             var userId = userEntity.Id;
-            string newFileName = "C:\\Users\\Tan\\Documents\\Projects2022\\Shop2022-code-3110\\Shop2022-code-3110\\eShopSolution.Application\\Data\\recommendation-ratings.csv";
-            DataTable table = new DataTable();
-            table.Columns.Add("UserId", typeof(string));
-            table.Columns.Add("ProductId", typeof(int));
-            table.Columns.Add("Label", typeof(float));
-            var query1 = await _context.ProductStarts.ToListAsync();
-            query1.ForEach(
-                value =>
-                {
-                    table.Rows.Add(value.UserId, value.ProductId, (float)value.Start);
-                });
-            ToCSV(table, newFileName);
+            //string newFileName = "C:\\Users\\Tan\\Documents\\Projects2022\\Shop2022-code-3110\\Shop2022-code-3110\\eShopSolution.Application\\Data\\recommendation-ratings.csv";
+            //DataTable table = new DataTable();
+            //table.Columns.Add("UserId", typeof(string));
+            //table.Columns.Add("ProductId", typeof(int));
+            //table.Columns.Add("Label", typeof(float));
+            //var query1 = await _context.ProductStarts.ToListAsync();
+            //query1.ForEach(
+            //    value =>
+            //    {
+            //        table.Rows.Add(value.UserId, value.ProductId, (float)value.Start);
+            //    });
+            //ToCSV(table, newFileName);
 
             var listRecommid = new List<ProductScore>();
-            var  listProduct = await _context.Products.Take(100).ToListAsync();
+            var query =  from p in _context.Products
+                        join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
+                        from pi in ppi.DefaultIfEmpty()
+                        where (pi == null || pi.IsDefault == true)
+                        select new { p, pi };
+
+            var  listProduct = await query.Take(100).ToListAsync();
             listProduct.ForEach(value =>
             {
                 var newSample = new ProductRating
                 {
                     UserId = userEntity.Id.ToString(),
-                    ProductId = value.Id,
+                    ProductId = value.p.Id,
                 };
                 var result = getFloatMax(newSample);
                 listRecommid.Add(new ProductScore()
                 {
-                    ProductId= value.Id,
+                    ProductId= value.p.Id,
                     Score = result,
                 });
 
             });
             listRecommid.Sort((x, y) => y.Score.CompareTo(x.Score));
-
-            var data = new List<ProductVm>();
+            listRecommid.Take(take);
             if (listRecommid.Count > 0)
             {
                 listRecommid.ForEach(
                     value =>
                     {
-                        var product = listProduct.Find(x => x.Id == value.ProductId);
+                        var product = listProduct.Find(x => x.p.Id == value.ProductId);
                         data.Add(
                             new ProductVm()
                             {
-                                Id = product.Id,
-                                Name = product.Name,
-                                DateCreated = product.DateCreated,
-                                Description = product.Description,
-                                Details = product.Details,
-                                OriginalPrice = product.OriginalPrice,
-                                Price = product.Price,
-                                SeoAlias = product.SeoAlias,
-                                SeoDescription = product.SeoDescription,
-                                SeoTitle = product.SeoTitle,
-                                Stock = product.Stock,
-                                ViewCount = product.ViewCount,
+                                Id = product.p.Id,
+                                Name = product.p.Name,
+                                DateCreated = product.p.DateCreated,
+                                Description = product.p.Description,
+                                Details = product.p.Details,
+                                OriginalPrice = product.p.OriginalPrice,
+                                Price = product.p.Price,
+                                SeoAlias = product.p.SeoAlias,
+                                SeoDescription = product.p.SeoDescription,
+                                SeoTitle = product.p.SeoTitle,
+                                Stock = product.p.Stock,
+                                ViewCount = product.p.ViewCount,
                                 ThumbnailImage = new List<string>()
-
+                                {
+                                         product.pi.ImagePath
+                                }
                             });
                     });
             }            
@@ -659,9 +679,7 @@ namespace eShopSolution.Application.Catalog.Products
         public float getFloatMax(ProductRating prd) {
             var trainers = new List<ITrainerBase>
             {
-                new MatrixFactorizationTrainer(10, 5, 0.1),
-                new MatrixFactorizationTrainer(10, 50, 0.01),
-                new MatrixFactorizationTrainer(20, 100, 0.1),
+                new MatrixFactorizationTrainer(10, 50, 0.01)
 
             };
             var arrFloar = new List<float>();
@@ -708,16 +726,10 @@ namespace eShopSolution.Application.Catalog.Products
             sw.Close();
         }
         public float TrainEvaluatePredict(ITrainerBase trainer, ProductRating newSample)
-        {
-            
+        {            
             trainer.Fit("C:\\Users\\Tan\\Documents\\Projects2022\\Shop2022-code-3110\\Shop2022-code-3110\\eShopSolution.Application\\Data\\recommendation-ratings.csv");
-
-            var modelMetrics = trainer.Evaluate();
-
-           
-
+            //var modelMetrics = trainer.Evaluate();           
             trainer.Save();
-
             var predictor = new Predictor();
             var prediction = predictor.Predict(newSample);
             return prediction.Score;

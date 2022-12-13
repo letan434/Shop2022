@@ -3,7 +3,7 @@
 @{
     var culture = CultureInfo.CurrentCulture.Name;
 }
-<div id="sidebar" class="col-3">
+<div id="sidebar" class="col-4">
     <ul id="sideManu" class="nav nav-tabs nav-stacked">
         @{
             var parents = Model.Where(x => x.ParentId == null);
@@ -14,7 +14,7 @@
             var children = Model.Where(x => x.ParentId == parent.Id);
             if (children.Any())
             {
-                <li class="subMenu open">
+                <li class="subMenu open me-2">
                     <a> @parent.Name</a>
                     <ul>
                         @foreach (var item in children)
@@ -26,7 +26,7 @@
             }
             else
             {
-                <li><a href="/@culture/@_loc["categoryUrl"]/@parent.Id">@parent.Name</a></li>
+                <li class="me-2"><a href="/@culture/@_loc["categoryUrl"]/@parent.Id">@parent.Name</a></li>
             }
 
         }

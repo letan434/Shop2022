@@ -104,7 +104,7 @@
         </form>
 
         <hr class="soft" />
-        <h4>@Model.Product.Stock sản còn trong kho</h4>
+        <h4>@Model.Product.Stock sản phẩm còn trong kho</h4>
         @*<form class="form-horizontal qtyFrm pull-right">
                 <div class="control-group">
                     <label class="control-label"><span>Color</span></label>
@@ -201,4 +201,10 @@
 
     </div>
 
+</div>
+<div>
+    Chi tiết:
+    <p>
+        @Html.Raw(Model.Product.Details)
+    </p>
 </div>
